@@ -71,3 +71,10 @@ refactor/#58-auth-bloc-separation
 1. 이슈 생성 → 브랜치 생성 → 작업 → 커밋 → PR → main 머지
 2. main 브랜치에 직접 push 금지
 3. PR 머지 후 작업 브랜치 삭제
+
+### 이슈 / PR 템플릿
+
+`gh issue create`, `gh pr create`로 이슈·PR을 생성할 때는 아래 템플릿 구조를 따릅니다.
+
+- 이슈: `.github/ISSUE_TEMPLATE/01-feature.md` (기능), `.github/ISSUE_TEMPLATE/02-fix.md` (버그)
+- PR: `.github/pull_request_template.md`

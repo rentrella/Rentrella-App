@@ -20,7 +20,7 @@ class BaseScaffold extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: backgroundColor ?? AppColors.white,
+        backgroundColor: backgroundColor ?? AppColors.bg_1,
         appBar: appBar,
         body: body,
         bottomNavigationBar: bottomNavigationBar,

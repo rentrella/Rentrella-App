@@ -17,6 +17,6 @@ class MainRoute extends GoRoute {
 
   @override
   List<RouteBase> get routes => [
-    GoRoute(path: AppPath.home, builder: (context, state) => HomeScreen()),
+    GoRoute(path: AppPath.home, builder: (context, state) => const HomeScreen()),
   ];
 }

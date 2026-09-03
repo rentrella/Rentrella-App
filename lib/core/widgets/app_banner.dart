@@ -9,7 +9,7 @@ class AppBanner extends StatelessWidget implements PreferredSizeWidget {
   const AppBanner({super.key});
 
   @override
-  Size get preferredSize => .fromHeight(AppSize.s68);
+  Size get preferredSize => const .fromHeight(AppSize.s68);
 
   @override
   Widget build(BuildContext context) {

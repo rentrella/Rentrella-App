@@ -1,12 +1,12 @@
 ---
 name: Feature
 about: 새로운 기능 구현
-title: "[FEAT] "
+title: "[FEATURE] "
 labels: ["feature"]
 ---
 
 ## 작업 내용
-<!-- AI가 구현할 기능을 명확하게 작성 -->
+<!-- 구현할 기능을 명확하게 작성 -->
 
 ## 작업 목록
 - [ ] 

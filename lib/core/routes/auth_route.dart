@@ -19,11 +19,11 @@ class AuthRoute extends GoRoute {
 
   @override
   List<RouteBase> get routes => [
-    GoRoute(path: AppPath.login, builder: (context, state) => LoginScreen()),
-    GoRoute(path: AppPath.signup, builder: (context, state) => SignupScreen()),
+    GoRoute(path: AppPath.login, builder: (context, state) => const LoginScreen()),
+    GoRoute(path: AppPath.signup, builder: (context, state) => const SignupScreen()),
     GoRoute(
       path: AppPath.passwordChange,
-      builder: (context, state) => PasswordChangeScreen(),
+      builder: (context, state) => const PasswordChangeScreen(),
     ),
   ];
 }

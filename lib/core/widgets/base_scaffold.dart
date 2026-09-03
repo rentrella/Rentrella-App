@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentrella/core/theme/color/app_colors.dart';
 
 class BaseScaffold extends StatelessWidget {
   const BaseScaffold({
@@ -19,7 +20,7 @@ class BaseScaffold extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? AppColors.bg_1,
         appBar: appBar,
         body: body,
         bottomNavigationBar: bottomNavigationBar,

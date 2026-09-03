@@ -124,11 +124,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   ),
                 ),
               ),
-              if (widget.suffix != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: AppSpacing.s8),
-                  child: widget.suffix,
-                ),
+              if (widget.suffix != null) widget.suffix!,
             ],
           ),
         ),

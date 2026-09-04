@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
@@ -162,7 +164,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppColors.subL_1,
                           ),
                         ),
-                        AppTextButton(label: '비밀번호 찾기', onPressed: () {}),
+                        AppTextButton(
+                          label: '회원가입',
+                          onPressed: () {
+                            context.goNamed(AppRoutes.signup.name);
+                          },
+                        ),
                       ],
                     ),
                   ),

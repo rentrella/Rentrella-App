@@ -3,13 +3,14 @@ import 'dart:ui';
 class AppColors {
   AppColors._();
 
+
   /// Neutral
   static const black = Color(0xff000000);
   static const mainText = Color(0xff111827);
-  static const subB_1 = Color(0xff1F2937);
-  static const subB_2 = Color(0xff374151);
-  static const subB_3 = Color(0xff4B5563);
-  static const subB_4 = Color(0xff6B7280);
+  static const subD_1 = Color(0xff1F2937);
+  static const subD_2 = Color(0xff374151);
+  static const subD_3 = Color(0xff4B5563);
+  static const subD_4 = Color(0xff6B7280);
   static const subL_1 = Color(0xff9AA8BC);
   static const subL_2 = Color(0xffAEB9C9);
   static const subL_3 = Color(0xffD9E1EC);

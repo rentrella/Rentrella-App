@@ -7,7 +7,7 @@ class AppTextStyle {
   static const fontFamily = 'NotoSans';
 
   /// H
-  static TextStyle h1 = TextStyle(
+  static TextStyle h1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 36,
     fontWeight: .bold,
@@ -16,21 +16,21 @@ class AppTextStyle {
   );
 
   /// Title
-  static TextStyle title1 = TextStyle(
+  static TextStyle title1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 24,
     fontWeight: .bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle title2 = TextStyle(
+  static TextStyle title2 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 22,
     fontWeight: .bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle tittle3 = TextStyle(
+  static TextStyle tittle3 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 20,
     fontWeight: .w600,
@@ -39,28 +39,28 @@ class AppTextStyle {
   );
 
   /// Body
-  static TextStyle body1 = TextStyle(
+  static TextStyle body1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 18,
     fontWeight: .w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle body2 = TextStyle(
+  static TextStyle body2 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 16,
     fontWeight: .w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle body3 = TextStyle(
+  static TextStyle body3 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 15,
     fontWeight: .w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle body4 = TextStyle(
+  static TextStyle body4 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 15,
     fontWeight: .w400,
@@ -69,21 +69,21 @@ class AppTextStyle {
   );
 
   /// Caption
-  static TextStyle caption1 = TextStyle(
+  static TextStyle caption1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 14,
     fontWeight: .bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle caption2 = TextStyle(
+  static TextStyle caption2 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 13,
     fontWeight: .bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle caption3 = TextStyle(
+  static TextStyle caption3 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 13,
     fontWeight: .w600,
@@ -92,42 +92,42 @@ class AppTextStyle {
   );
 
   /// Content
-  static TextStyle content1 = TextStyle(
+  static TextStyle content1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 12,
     fontWeight: .w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle content2 = TextStyle(
+  static TextStyle content2 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 11,
     fontWeight: .w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content3 = TextStyle(
+  static TextStyle content3 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 10,
     fontWeight: .w400,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content4 = TextStyle(
+  static TextStyle content4 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 9,
     fontWeight: .w600,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content5 = TextStyle(
+  static TextStyle content5 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 7,
     fontWeight: .w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content6 = TextStyle(
+  static TextStyle content6 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 6,
     fontWeight: .w400,
@@ -136,7 +136,7 @@ class AppTextStyle {
   );
 
   /// Button
-  static TextStyle button1 = TextStyle(
+  static TextStyle button1 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 15,
     fontWeight: .bold,
@@ -144,7 +144,7 @@ class AppTextStyle {
     fontFamily: fontFamily,
   );
 
-  static TextStyle button2 = TextStyle(
+  static TextStyle button2 = const TextStyle(
     color: AppColors.mainText,
     fontSize: 12,
     fontWeight: .bold,

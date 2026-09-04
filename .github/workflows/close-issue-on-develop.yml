@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    branches: [develop]
+    types: [closed]
+
+jobs:
+  close-issue:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const matches = body.match(/[Cc]loses?\s+#(\d+)/g) || [];
+            for (const match of matches) {
+              const num = match.match(/\d+/)[0];
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(num),
+                state: 'closed'
+              });
+            }

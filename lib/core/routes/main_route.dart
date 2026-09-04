@@ -6,10 +6,10 @@ import 'app_route.dart';
 class MainRoute extends GoRoute {
   MainRoute()
     : super(
-        path: AppPath.mainPath,
+        path: AppRoutes.main.path,
         redirect: (context, state) {
-          if (state.matchedLocation == AppPath.mainPath) {
-            return '${AppPath.mainPath}${AppPath.home}';
+          if (state.uri.path == AppRoutes.main.path) {
+            return AppRoutes.home.fullPath;
           }
           return null;
         },
@@ -17,6 +17,10 @@ class MainRoute extends GoRoute {
 
   @override
   List<RouteBase> get routes => [
-    GoRoute(path: AppPath.home, builder: (context, state) => HomeScreen()),
+    GoRoute(
+      path: AppRoutes.home.path,
+      name: AppRoutes.main.name,
+      builder: (context, state) => const HomeScreen(),
+    ),
   ];
 }

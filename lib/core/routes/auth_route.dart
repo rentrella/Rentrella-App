@@ -8,10 +8,10 @@ import 'app_route.dart';
 class AuthRoute extends GoRoute {
   AuthRoute()
     : super(
-        path: AppPath.authPath,
+        path: AppRoutes.auth.path,
         redirect: (context, state) {
-          if (state.matchedLocation == AppPath.authPath) {
-            return '${AppPath.authPath}${AppPath.login}';
+          if (state.uri.path == AppRoutes.auth.path) {
+            return AppRoutes.login.fullPath;
           }
           return null;
         },
@@ -19,10 +19,19 @@ class AuthRoute extends GoRoute {
 
   @override
   List<RouteBase> get routes => [
-    GoRoute(path: AppPath.login, builder: (context, state) => const LoginScreen()),
-    GoRoute(path: AppPath.signup, builder: (context, state) => const SignupScreen()),
     GoRoute(
-      path: AppPath.passwordChange,
+      path: AppRoutes.login.path,
+      name: AppRoutes.login.name,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.signup.path,
+      name: AppRoutes.signup.name,
+      builder: (context, state) => const SignupScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.passwordChange.path,
+      name: AppRoutes.passwordChange.name,
       builder: (context, state) => const PasswordChangeScreen(),
     ),
   ];

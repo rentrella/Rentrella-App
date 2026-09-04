@@ -5,6 +5,7 @@ import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
+import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -84,11 +85,9 @@ class _AppTextFieldState extends State<AppTextField> {
             color: AppColors.white,
             border: Border.all(color: borderColor),
             boxShadow: [
-              BoxShadow(
-                color: hasError ? AppColors.r_1 : AppColors.subL_3,
-                blurRadius: 4,
-                offset: Offset(0, hasError ? 1 : 4),
-              ),
+              hasError
+                  ? AppShadow.card.copyWith(color: AppColors.r_1)
+                  : AppShadow.card,
             ],
           ),
           child: Row(

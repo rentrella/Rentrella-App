@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rentrella/core/theme/color/app_colors.dart';
+import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
-
-import '../../../core/theme/color/app_colors.dart';
-import '../../../core/theme/constants/app_radius.dart';
-import '../../../core/theme/constants/app_spacing.dart';
-import '../../../core/theme/font/app_text_style.dart';
+import 'package:rentrella/core/theme/constants/app_spacing.dart';
+import 'package:rentrella/core/theme/font/app_text_style.dart';
 
 class CustomCheckBoxTile extends StatelessWidget {
   const CustomCheckBoxTile({
@@ -29,7 +28,6 @@ class CustomCheckBoxTile extends StatelessWidget {
           dimension: AppSize.s16,
           child: Checkbox(
             overlayColor: .all(AppColors.subL_1.withAlpha(32)),
-            visualDensity: .compact,
             materialTapTargetSize: .shrinkWrap,
             activeColor: AppColors.primary,
             value: check,

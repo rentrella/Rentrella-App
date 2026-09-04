@@ -11,7 +11,8 @@ import 'package:rentrella/core/widgets/app_text_field.dart';
 import 'package:rentrella/core/widgets/base_scaffold.dart';
 import 'package:rentrella/core/widgets/app_text_button.dart';
 import 'package:rentrella/core/widgets/primary_button.dart';
-import 'package:rentrella/feature/auth/widgets/custom_check_box_tile.dart';
+
+import '../../core/widgets/custom_check_box_tile.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,34 +22,34 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emCtrl = TextEditingController();
+  final _pwCtrl = TextEditingController();
 
   bool hide = true;
   bool check = false;
 
-  String? _emailError;
-  String? _passwordError;
+  String? _emErr;
+  String? _pwErr;
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _emCtrl.dispose();
+    _pwCtrl.dispose();
     super.dispose();
   }
 
   void _validate() {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
+    final em = _emCtrl.text.trim();
+    final pw = _pwCtrl.text;
 
-    final emailValid = RegExp(r'^s\d{5}@gsm\.hs\.kr$').hasMatch(email);
-    final passwordValid = RegExp(
+    final emV = RegExp(r'^s\d{5}@gsm\.hs\.kr$').hasMatch(em);
+    final pwV = RegExp(
       r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=]{6,20}$',
-    ).hasMatch(password);
+    ).hasMatch(pw);
 
     setState(() {
-      _emailError = emailValid ? null : _Errors.email;
-      _passwordError = passwordValid ? null : _Errors.password;
+      _emErr = emV ? null : _Errors.email;
+      _pwErr = pwV ? null : _Errors.password;
     });
   }
 
@@ -90,15 +91,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           label: '이메일',
                           hint: '이메일을 입력해 주세요.',
                           prefixIcon: .email,
-                          controller: _emailController,
-                          error: _emailError,
+                          controller: _emCtrl,
+                          error: _emErr,
                         ),
                         AppTextField(
                           label: '비밀번호',
                           hint: '비밀번호를 입력해 주세요.',
                           prefixIcon: .lock,
-                          controller: _passwordController,
-                          error: _passwordError,
+                          controller: _pwCtrl,
+                          error: _pwErr,
                           hide: hide,
                           suffix: IconButton(
                             style: IconButton.styleFrom(),

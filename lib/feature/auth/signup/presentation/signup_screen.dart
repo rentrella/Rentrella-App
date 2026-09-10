@@ -4,6 +4,7 @@ import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/base_scaffold.dart';
+import 'package:rentrella/core/widgets/submit_button.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_security_card.dart';
 
@@ -178,7 +179,7 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 spacing: AppSpacing.s12,
                 children: [
-                  PrimaryButton(onPressed: _validate, title: '회원가입 하기'),
+                  SubmitButton(onPressed: _validate, title: '회원가입 하기'),
                   Padding(
                     padding: const EdgeInsets.all(AppSpacing.s4),
                     child: Row(
@@ -193,6 +194,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         AppTextButton(
                           label: '로그인',
+                          color: AppColors.pD_3,
                           onPressed: () {
                             context.goNamed(AppRoutes.login.name);
                           },

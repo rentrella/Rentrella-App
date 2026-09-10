@@ -12,7 +12,6 @@ class AppTextField extends StatefulWidget {
     super.key,
     this.label,
     this.controller,
-    this.prefix,
     this.prefixIcon,
     this.hint,
     this.focusNode,
@@ -20,10 +19,10 @@ class AppTextField extends StatefulWidget {
     this.suffix,
     this.hide,
     this.hideChar,
+    this.action,
   });
 
   final String? label;
-  final Widget? prefix;
   final AppIcon? prefixIcon;
   final Widget? suffix;
   final String? hint;
@@ -32,6 +31,7 @@ class AppTextField extends StatefulWidget {
   final String? error;
   final bool? hide;
   final String? hideChar;
+  final Widget? action;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -39,7 +39,6 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   late final FocusNode _focusNode;
-  bool _focused = false;
 
   @override
   void initState() {
@@ -48,9 +47,7 @@ class _AppTextFieldState extends State<AppTextField> {
     _focusNode.addListener(_onFocusChange);
   }
 
-  void _onFocusChange() {
-    setState(() => _focused = _focusNode.hasFocus);
-  }
+  void _onFocusChange() => setState(() {});
 
   @override
   void dispose() {
@@ -59,76 +56,95 @@ class _AppTextFieldState extends State<AppTextField> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    const duration = Duration(milliseconds: 300);
-    final hasError = widget.error != null;
-    final hasPrefix = widget.prefixIcon != null || widget.prefix != null;
-
-    final borderColor = hasError
+  BoxDecoration _buildDecoration() {
+    final isErr = widget.error != null;
+    final borderColor = isErr
         ? AppColors.r_1
-        : _focused
+        : _focusNode.hasFocus
         ? AppColors.primary
         : AppColors.subL_3;
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(AppRadius.r8),
+      color: AppColors.white,
+      border: .all(color: borderColor, width: 1.2),
+      boxShadow: [
+        isErr
+            ? AppShadow.field.copyWith(color: AppColors.r_1)
+            : AppShadow.field,
+      ],
+    );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.s4,
       children: [
         if (widget.label != null)
-          Text(widget.label!, style: AppTextStyle.content3),
-
-        AnimatedContainer(
-          duration: duration,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.r8),
-            color: AppColors.white,
-            border: Border.all(color: borderColor),
-            boxShadow: [
-              hasError
-                  ? AppShadow.card.copyWith(color: AppColors.r_1)
-                  : AppShadow.card,
-            ],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (hasPrefix)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: AppSpacing.s16,
-                    right: AppSpacing.s8,
-                  ),
-                  child:
-                      widget.prefixIcon?.icon(size: AppSize.s12) ??
-                      widget.prefix,
-                ),
-              Expanded(
-                child: TextField(
-                  focusNode: _focusNode,
-                  obscureText: widget.hide ?? false,
-                  obscuringCharacter: widget.hideChar ?? '•',
-                  style: AppTextStyle.content3,
-                  controller: widget.controller,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: AppSpacing.s12,
-                      horizontal: hasPrefix ? 0 : AppSpacing.s16,
+          Text(widget.label!, style: AppTextStyle.content2),
+        Row(
+          spacing: AppSpacing.s8,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: _focusNode.requestFocus,
+                child: Stack(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      decoration: _buildDecoration(),
+                      padding: EdgeInsets.only(
+                        left: AppSpacing.s16,
+                        top: AppSpacing.s12,
+                        bottom: AppSpacing.s12,
+                        right: widget.suffix != null
+                            ? AppSpacing.s40
+                            : AppSpacing.s16,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: AppSpacing.s8,
+                        children: [
+                          if (widget.prefixIcon != null)
+                            widget.prefixIcon!.icon(size: AppSize.s12),
+                          Expanded(
+                            child: TextField(
+                              focusNode: _focusNode,
+                              obscureText: widget.hide ?? false,
+                              obscuringCharacter: widget.hideChar ?? '•',
+                              style: AppTextStyle.content2,
+                              controller: widget.controller,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: .zero,
+                                border: InputBorder.none,
+                                hintText: widget.hint,
+                                hintStyle: AppTextStyle.content2.copyWith(
+                                  color: AppColors.subL_1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    border: InputBorder.none,
-                    hintText: widget.hint,
-                    hintStyle: AppTextStyle.content3.copyWith(
-                      color: AppColors.subL_1,
-                    ),
-                  ),
+                    if (widget.suffix != null)
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(child: widget.suffix!),
+                      ),
+                  ],
                 ),
               ),
-              if (widget.suffix != null) widget.suffix!,
-            ],
-          ),
-        ),
+            ),
 
-        if (hasError)
+            if (widget.action != null) widget.action!,
+          ],
+        ),
+        if (widget.error != null)
           Text(
             widget.error!,
             style: AppTextStyle.content2.copyWith(color: AppColors.r_2),

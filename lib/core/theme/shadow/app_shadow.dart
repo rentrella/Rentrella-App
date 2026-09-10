@@ -11,4 +11,11 @@ class AppShadow {
     offset: Offset(0, 1),
     spreadRadius: 0,
   );
+
+  static const field = BoxShadow(
+    color: AppColors.subL_3,
+    blurRadius: 4,
+    offset: Offset(0, 3),
+    spreadRadius: 0,
+  );
 }

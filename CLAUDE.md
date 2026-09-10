@@ -1,5 +1,12 @@
 # Rentrella App — Claude Instructions
 
+## 아키텍처 문서
+
+코드 작업 전 반드시 `ARCHITECTURE.md`를 읽는다.
+새로운 위젯·화면·패턴이 추가되거나 기존 구조가 변경되면 작업 완료 후 `ARCHITECTURE.md`를 직접 업데이트한다.
+
+---
+
 ## Git 컨벤션
 
 ### 커밋 메시지

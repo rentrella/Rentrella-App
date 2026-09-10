@@ -11,6 +11,7 @@ import 'package:rentrella/core/widgets/app_text_field.dart';
 import 'package:rentrella/core/widgets/base_scaffold.dart';
 import 'package:rentrella/core/widgets/app_text_button.dart';
 import 'package:rentrella/core/widgets/primary_button.dart';
+import 'package:rentrella/core/widgets/submit_button.dart';
 
 import '../../core/widgets/custom_check_box_tile.dart';
 
@@ -129,7 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               alignment: .centerRight,
                               child: AppTextButton(
                                 label: '비밀번호 찾기',
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.goNamed(
+                                    AppRoutes.passwordChange.name,
+                                  );
+                                },
                               ),
                             ),
                           ),
@@ -152,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 spacing: AppSpacing.s12,
                 children: [
-                  PrimaryButton(onPressed: _validate, title: '로그인 하기'),
+                  SubmitButton(onPressed: _validate, title: '로그인 하기'),
                   Padding(
                     padding: const EdgeInsets.all(AppSpacing.s4),
                     child: Row(
@@ -167,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         AppTextButton(
                           label: '회원가입',
+                          color: AppColors.pD_3,
                           onPressed: () {
                             context.goNamed(AppRoutes.signup.name);
                           },

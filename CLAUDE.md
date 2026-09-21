@@ -1,5 +1,33 @@
 # Rentrella App — Claude Instructions
 
+## 문서 구조
+
+```
+docs/
+├── architecture.md   # 디렉토리 구조, 라우팅, feature 패턴, 구현된 화면 목록
+├── theme.md          # 색상·타이포·아이콘·간격·그림자 상수
+└── widgets.md        # 공통 위젯 사용법 및 추가 기준
+```
+
+### 작업별 필독 문서
+
+| 작업 | 읽어야 할 문서 |
+|------|---------------|
+| 화면 구현 | `architecture.md` + `widgets.md` |
+| 스타일·색상·아이콘 작업 | `theme.md` |
+| 라우트 추가 | `architecture.md` |
+| 공통 위젯 추가·수정 | `widgets.md` |
+
+### 문서 유지 규칙
+
+작업 완료 후, 변경 내용이 문서에 반영되지 않은 경우 해당 문서를 직접 업데이트하고 함께 커밋한다.
+
+- 새 화면 추가 → `architecture.md` 구현된 화면 목록 업데이트
+- 새 공통 위젯 추가 → `widgets.md` 업데이트
+- 새 테마 상수 추가 → `theme.md` 업데이트
+
+---
+
 ## Git 컨벤션
 
 ### 커밋 메시지

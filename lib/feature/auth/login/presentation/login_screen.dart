@@ -8,12 +8,11 @@ import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
-import 'package:rentrella/core/widgets/base_scaffold.dart';
-import 'package:rentrella/core/widgets/app_text_button.dart';
-import 'package:rentrella/core/widgets/primary_button.dart';
-import 'package:rentrella/core/widgets/submit_button.dart';
-
-import '../../core/widgets/custom_check_box_tile.dart';
+import 'package:rentrella/core/widgets/base/base_scaffold.dart';
+import 'package:rentrella/core/widgets/buttons/app_text_button.dart';
+import 'package:rentrella/core/widgets/buttons/submit_button.dart';
+import 'package:rentrella/feature/auth/core/auth_validators.dart';
+import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,19 +38,19 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _validate() {
+  bool _validate() {
     final em = _emCtrl.text.trim();
     final pw = _pwCtrl.text;
 
-    final emV = RegExp(r'^s\d{5}@gsm\.hs\.kr$').hasMatch(em);
-    final pwV = RegExp(
-      r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=]{6,20}$',
-    ).hasMatch(pw);
+    final emV = AuthValidators.email(em);
+    final pwV = AuthValidators.password(pw);
 
     setState(() {
-      _emErr = emV ? null : _Errors.email;
-      _pwErr = pwV ? null : _Errors.password;
+      _emErr = emV ? null : AuthErrors.email;
+      _pwErr = pwV ? null : AuthErrors.password;
     });
+
+    return emV && pwV;
   }
 
   @override
@@ -63,15 +62,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   vertical: AppSpacing.s24,
                   horizontal: AppSpacing.s16,
                 ),
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
-                      crossAxisAlignment: .start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('로그인', style: AppTextStyle.title1),
                         Text(
@@ -83,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: AppSpacing.s24),
+                    AppSpacing.s24.gapH,
 
                     Column(
                       spacing: AppSpacing.s28,
@@ -91,14 +90,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         AppTextField(
                           label: '이메일',
                           hint: '이메일을 입력해 주세요.',
-                          prefixIcon: .email,
+                          prefixIcon: AppIcon.email,
                           controller: _emCtrl,
                           error: _emErr,
                         ),
                         AppTextField(
                           label: '비밀번호',
                           hint: '비밀번호를 입력해 주세요.',
-                          prefixIcon: .lock,
+                          prefixIcon: AppIcon.lock,
                           controller: _pwCtrl,
                           error: _pwErr,
                           hide: hide,
@@ -127,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           label: '로그인 유지',
                           suffix: Expanded(
                             child: Align(
-                              alignment: .centerRight,
+                              alignment: Alignment.centerRight,
                               child: AppTextButton(
                                 label: '비밀번호 찾기',
                                 onPressed: () {
@@ -150,19 +149,26 @@ class _LoginScreenState extends State<LoginScreen> {
           Material(
             color: AppColors.white,
             child: Padding(
-              padding: const .symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.s16,
                 vertical: AppSpacing.s12,
               ),
               child: Column(
                 spacing: AppSpacing.s12,
                 children: [
-                  SubmitButton(onPressed: _validate, title: '로그인 하기'),
+                  SubmitButton(
+                    onPressed: () {
+                      if (_validate()) {
+                        context.goNamed(AppRoutes.main.name);
+                      }
+                    },
+                    title: '로그인 하기',
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(AppSpacing.s4),
+                    padding: EdgeInsets.all(AppSpacing.s4),
                     child: Row(
                       spacing: AppSpacing.s16,
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           '계정이 없나요?',
@@ -188,9 +194,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-
-class _Errors {
-  static const String email = '이메일은 "sXXXX@gsm.hs.kr" 형식을 따라야 합니다.';
-  static const String password = '비밀번호는 6-20자 내의 영문+숫자-특수문자 형식을 따라야 합니다.';
 }

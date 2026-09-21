@@ -3,7 +3,6 @@ import 'dart:ui';
 class AppColors {
   AppColors._();
 
-
   /// Neutral
   static const black = Color(0xff000000);
   static const mainText = Color(0xff111827);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 
 class AppTextStyle {
@@ -7,147 +8,147 @@ class AppTextStyle {
   static const fontFamily = 'NotoSans';
 
   /// H
-  static TextStyle h1 = const TextStyle(
+  static TextStyle get h1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 36,
-    fontWeight: .bold,
+    fontSize: 36.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
 
   /// Title
-  static TextStyle title1 = const TextStyle(
+  static TextStyle get title1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 24,
-    fontWeight: .bold,
+    fontSize: 24.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle title2 = const TextStyle(
+  static TextStyle get title2 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 22,
-    fontWeight: .bold,
+    fontSize: 22.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle tittle3 = const TextStyle(
+  static TextStyle get title3 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 20,
-    fontWeight: .w600,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
 
   /// Body
-  static TextStyle body1 = const TextStyle(
+  static TextStyle get body1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 18,
-    fontWeight: .w600,
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle body2 = const TextStyle(
+  static TextStyle get body2 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 16,
-    fontWeight: .w600,
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle body3 = const TextStyle(
+  static TextStyle get body3 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 15,
-    fontWeight: .w500,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle body4 = const TextStyle(
+  static TextStyle get body4 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 15,
-    fontWeight: .w400,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w400,
     height: 1.5,
     fontFamily: fontFamily,
   );
 
   /// Caption
-  static TextStyle caption1 = const TextStyle(
+  static TextStyle get caption1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 14,
-    fontWeight: .bold,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle caption2 = const TextStyle(
+  static TextStyle get caption2 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 13,
-    fontWeight: .bold,
+    fontSize: 13.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle caption3 = const TextStyle(
+  static TextStyle get caption3 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 13,
-    fontWeight: .w600,
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
 
   /// Content
-  static TextStyle content1 = const TextStyle(
+  static TextStyle get content1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 12,
-    fontWeight: .w600,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w600,
     height: 1.2,
     fontFamily: fontFamily,
   );
-  static TextStyle content2 = const TextStyle(
+  static TextStyle get content2 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 11,
-    fontWeight: .w500,
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content3 = const TextStyle(
+  static TextStyle get content3 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 10,
-    fontWeight: .w400,
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content4 = const TextStyle(
+  static TextStyle get content4 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 9,
-    fontWeight: .w600,
+    fontSize: 9.sp,
+    fontWeight: FontWeight.w600,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content5 = const TextStyle(
+  static TextStyle get content5 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 7,
-    fontWeight: .w500,
+    fontSize: 7.sp,
+    fontWeight: FontWeight.w500,
     height: 1.5,
     fontFamily: fontFamily,
   );
-  static TextStyle content6 = const TextStyle(
+  static TextStyle get content6 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 6,
-    fontWeight: .w400,
+    fontSize: 6.sp,
+    fontWeight: FontWeight.w400,
     height: 1.5,
     fontFamily: fontFamily,
   );
 
   /// Button
-  static TextStyle button1 = const TextStyle(
+  static TextStyle get button1 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 15,
-    fontWeight: .bold,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );
 
-  static TextStyle button2 = const TextStyle(
+  static TextStyle get button2 => TextStyle(
     color: AppColors.mainText,
-    fontSize: 12,
-    fontWeight: .bold,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.bold,
     height: 1.2,
     fontFamily: fontFamily,
   );

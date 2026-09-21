@@ -11,7 +11,7 @@ class BaseScaffold extends StatelessWidget {
   });
 
   final Widget body;
-  final PreferredSizeWidget? appBar;
+  final Widget? appBar;
   final Widget? bottomNavigationBar;
   final Color? backgroundColor;
 
@@ -21,8 +21,12 @@ class BaseScaffold extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: backgroundColor ?? AppColors.bg_1,
-        appBar: appBar,
-        body: body,
+        body: Column(
+          children: [
+            ?appBar,
+            Expanded(child: body),
+          ],
+        ),
         bottomNavigationBar: bottomNavigationBar,
       ),
     );

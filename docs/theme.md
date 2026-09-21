@@ -2,6 +2,19 @@
 
 값 하드코딩 금지. 모든 색상·크기·간격은 아래 상수 클래스 사용.
 
+## flutter_screenutil 적용
+
+디자인 기준 해상도: **402 × 872 (width × height)**
+
+- `AppSize`, `AppSpacing`, `AppRadius` — 값이 런타임에 `.r`로 스케일됨 (`static double get`)
+- `AppTextStyle` — `fontSize`가 `.sp`로 스케일됨 (`static TextStyle get`)
+- `main.dart` — `ScreenUtilInit(designSize: Size(402, 872))` 래핑
+
+### 주의
+
+`const EdgeInsets`, `const SizedBox` 등에서 위 상수를 사용하면 컴파일 오류 발생.
+`const` 키워드를 제거하고 사용할 것.
+
 ## 클래스 목록
 
 | 클래스 | 파일 | 용도 |

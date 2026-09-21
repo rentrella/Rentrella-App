@@ -5,7 +5,7 @@ import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
-import 'package:rentrella/core/widgets/app_base_button.dart';
+import 'package:rentrella/core/widgets/base/app_base_button.dart';
 
 class SubmitButton extends StatelessWidget {
   const SubmitButton({super.key, required this.title, required this.onPressed});
@@ -18,7 +18,7 @@ class SubmitButton extends StatelessWidget {
     final enable = onPressed != null;
 
     final decoration = BoxDecoration(
-      borderRadius: .circular(AppRadius.r8),
+      borderRadius: BorderRadius.circular(AppRadius.r8),
       boxShadow: const [AppShadow.card],
     );
 
@@ -38,9 +38,9 @@ class SubmitButton extends StatelessWidget {
         onPressed: onPressed,
         radius: AppRadius.r8,
         child: Padding(
-          padding: const .symmetric(vertical: AppSpacing.s12),
+          padding: EdgeInsets.symmetric(vertical: AppSpacing.s12),
           child: Row(
-            mainAxisAlignment: .center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,

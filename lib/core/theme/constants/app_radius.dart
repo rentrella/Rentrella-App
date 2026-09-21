@@ -1,14 +1,18 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class AppRadius {
   AppRadius._();
 
-  static const double r4 = 4;
-  static const double r8 = 8;
-  static const double r12 = 12;
-  static const double r18 = 18;
-  static const double r24 = 24;
-  static const double r32 = 32;
-  static const double r36 = 36;
-  static const double r40 = 40;
-  static const double r48 = 48;
-  static const double r60 = 60;
+  static double get r4 => 4.r;
+  static double get r8 => 8.r;
+  static double get r12 => 12.r;
+  static double get r16 => 16.r;
+  static double get r18 => 18.r;
+  static double get r20 => 20.r;
+  static double get r24 => 24.r;
+  static double get r32 => 32.r;
+  static double get r36 => 36.r;
+  static double get r40 => 40.r;
+  static double get r48 => 48.r;
+  static double get r60 => 60.r;
 }

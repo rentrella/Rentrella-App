@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/color/app_colors.dart';
+import '../../theme/color/app_colors.dart';
 
 class AppBaseButton extends StatelessWidget {
   const AppBaseButton({
@@ -8,7 +8,7 @@ class AppBaseButton extends StatelessWidget {
     required this.onPressed,
     required this.child,
     this.radius,
-    this.splashColor = AppColors.primary,
+    this.splashColor = AppColors.subL_5,
   });
 
   final VoidCallback? onPressed;
@@ -22,7 +22,7 @@ class AppBaseButton extends StatelessWidget {
       type: .transparency,
       child: InkWell(
         borderRadius: .circular(radius ?? 0),
-        splashColor: splashColor,
+        splashColor: splashColor.withAlpha(180),
         onTap: onPressed,
         child: child,
       ),

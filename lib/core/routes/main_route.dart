@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:rentrella/feature/home/presentation/home_screen.dart';
+import 'package:rentrella/feature/home/presentation/screens/home_screen.dart';
 
 import 'app_route.dart';
 

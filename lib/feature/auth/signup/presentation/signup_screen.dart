@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
+import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
+import 'package:rentrella/core/theme/constants/app_size.dart';
+import 'package:rentrella/core/theme/constants/app_spacing.dart';
+import 'package:rentrella/core/theme/font/app_text_style.dart';
+import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
-import 'package:rentrella/core/widgets/base_scaffold.dart';
-import 'package:rentrella/core/widgets/submit_button.dart';
+import 'package:rentrella/core/widgets/app_banner.dart';
+import 'package:rentrella/core/widgets/app_text_field.dart';
+import 'package:rentrella/core/widgets/base/base_scaffold.dart';
+import 'package:rentrella/core/widgets/buttons/app_text_button.dart';
+import 'package:rentrella/core/widgets/buttons/submit_button.dart';
+import 'package:rentrella/feature/auth/core/auth_validators.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_security_card.dart';
-
-import '../../../../core/theme/color/app_colors.dart';
-import '../../../../core/theme/constants/app_size.dart';
-import '../../../../core/theme/constants/app_spacing.dart';
-import '../../../../core/theme/font/app_text_style.dart';
-import '../../../../core/theme/icon/app_icon.dart';
-import '../../../../core/widgets/app_banner.dart';
-import '../../../../core/widgets/app_text_button.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/primary_button.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -51,17 +50,14 @@ class _SignupScreenState extends State<SignupScreen> {
     final pw = _pwCtrl.text;
     final pw2 = _pw2Ctrl.text;
 
-    final emV = RegExp(r'^s\d{5}@gsm\.hs\.kr$').hasMatch(em);
-    final pwV = RegExp(
-      r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=]{6,20}$',
-    ).hasMatch(pw);
-
+    final emV = AuthValidators.email(em);
+    final pwV = AuthValidators.password(pw);
     final pw2V = pw == pw2;
 
     setState(() {
-      _emErr = emV ? null : _Errors.email;
-      _pwErr = pwV ? null : _Errors.password;
-      _pw2Err = pw2V ? null : _Errors.passwordConfirm;
+      _emErr = emV ? null : AuthErrors.email;
+      _pwErr = pwV ? null : AuthErrors.password;
+      _pw2Err = pw2V ? null : AuthErrors.passwordConfirm;
     });
   }
 
@@ -74,15 +70,15 @@ class _SignupScreenState extends State<SignupScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   vertical: AppSpacing.s24,
                   horizontal: AppSpacing.s16,
                 ),
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
-                      crossAxisAlignment: .start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('회원가입', style: AppTextStyle.title1),
                         Text(
@@ -94,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: AppSpacing.s24),
+                    AppSpacing.s24.gapH,
 
                     Column(
                       spacing: AppSpacing.s28,
@@ -102,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         AppTextField(
                           label: '이메일',
                           hint: '이메일을 입력해 주세요.',
-                          prefixIcon: .email,
+                          prefixIcon: AppIcon.email,
                           controller: _emCtrl,
                           error: _emErr,
                         ),
@@ -110,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         AppTextField(
                           label: '비밀번호',
                           hint: '비밀번호를 입력해 주세요.',
-                          prefixIcon: .lock,
+                          prefixIcon: AppIcon.lock,
                           controller: _pwCtrl,
                           error: _pwErr,
                           hide: hide,
@@ -134,7 +130,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         AppTextField(
                           label: '비밀번호 확인',
                           hint: '비밀번호를 다시 입력해 주세요.',
-                          prefixIcon: .lock,
+                          prefixIcon: AppIcon.lock,
                           controller: _pw2Ctrl,
                           error: _pw2Err,
                           hide: hide2,
@@ -172,7 +168,7 @@ class _SignupScreenState extends State<SignupScreen> {
           Material(
             color: AppColors.white,
             child: Padding(
-              padding: const .symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.s16,
                 vertical: AppSpacing.s12,
               ),
@@ -181,10 +177,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   SubmitButton(onPressed: _validate, title: '회원가입 하기'),
                   Padding(
-                    padding: const EdgeInsets.all(AppSpacing.s4),
+                    padding: EdgeInsets.all(AppSpacing.s4),
                     child: Row(
                       spacing: AppSpacing.s16,
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           '이미 계정이 있나요?',
@@ -268,8 +264,8 @@ class _CheckTermTileState extends State<_CheckTermTile> {
           label: '개인정보 수집 및 이용에 동의',
           suffix: IconButton(
             style: IconButton.styleFrom(
-              minimumSize: .zero,
-              tapTargetSize: .shrinkWrap,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             onPressed: () {
               setState(() {
@@ -291,21 +287,21 @@ class _CheckTermTileState extends State<_CheckTermTile> {
             heightFactor: hide ? 0.0 : 1.0,
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.s12),
+              padding: EdgeInsets.only(top: AppSpacing.s12),
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   boxShadow: const [AppShadow.card],
-                  borderRadius: .circular(AppRadius.r8),
-                  border: .all(color: AppColors.subL_3, width: 1),
+                  borderRadius: BorderRadius.circular(AppRadius.r8),
+                  border: Border.all(color: AppColors.subL_3, width: 1),
                 ),
-                padding: const .symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.s16,
                   vertical: AppSpacing.s12,
                 ),
                 child: Column(
                   spacing: AppSpacing.s12,
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: terms
                       .map((e) => _section(title: e.$1, content: e.$2))
                       .toList(),
@@ -319,20 +315,14 @@ class _CheckTermTileState extends State<_CheckTermTile> {
   }
 
   Widget _section({required String title, required String content}) => Column(
-    crossAxisAlignment: .start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     spacing: AppSpacing.s8,
     children: [
       Text(title, style: AppTextStyle.button1),
       SizedBox(
-        width: .infinity,
+        width: double.infinity,
         child: Text(content, style: AppTextStyle.content3),
       ),
     ],
   );
-}
-
-class _Errors {
-  static const String email = '이메일은 "sXXXX@gsm.hs.kr" 형식을 따라야 합니다.';
-  static const String password = '비밀번호는 6-20자 내의 영문+숫자-특수문자 형식을 따라야 합니다.';
-  static const String passwordConfirm = '비밀번호가 일치하지 않습니다.';
 }

@@ -23,19 +23,19 @@ class PasswordSecurityCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         boxShadow: const [AppShadow.card],
-        borderRadius: .circular(AppRadius.r8),
-        border: .all(color: AppColors.subL_3, width: 1),
+        borderRadius: BorderRadius.circular(AppRadius.r8),
+        border: Border.all(color: AppColors.subL_3, width: 1),
       ),
-      padding: const .symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.s16,
         vertical: AppSpacing.s12,
       ),
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         spacing: AppSpacing.s8,
         children: [
           Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '비밀번호 안전도',
@@ -48,7 +48,7 @@ class PasswordSecurityCard extends StatelessWidget {
 
           Row(
             spacing: AppSpacing.s4,
-            children: .generate(SecurityLevel.values.length, (index) {
+            children: List.generate(SecurityLevel.values.length, (index) {
               final act =
                   index <=
                   SecurityLevel.values.indexWhere(
@@ -59,7 +59,7 @@ class PasswordSecurityCard extends StatelessWidget {
                 child: Container(
                   height: AppSize.s6,
                   decoration: BoxDecoration(
-                    borderRadius: .circular(99),
+                    borderRadius: BorderRadius.circular(99),
                     color: act ? color : AppColors.subL_3,
                   ),
                 ),

@@ -27,12 +27,12 @@ class CustomCheckBoxTile extends StatelessWidget {
         SizedBox.square(
           dimension: AppSize.s16,
           child: Checkbox(
-            overlayColor: .all(AppColors.subL_1.withAlpha(32)),
-            materialTapTargetSize: .shrinkWrap,
+            overlayColor: WidgetStateProperty.all(AppColors.subL_1.withAlpha(32)),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             activeColor: AppColors.primary,
             value: check,
             shape: RoundedRectangleBorder(
-              borderRadius: .circular(AppRadius.r4),
+              borderRadius: BorderRadius.circular(AppRadius.r4),
             ),
             side: const BorderSide(color: AppColors.primary, width: 2),
             onChanged: action,
@@ -44,7 +44,7 @@ class CustomCheckBoxTile extends StatelessWidget {
           style: AppTextStyle.body4.copyWith(color: AppColors.subD_3),
         ),
 
-        ?suffix,
+        if (suffix != null) suffix!,
       ],
     );
   }

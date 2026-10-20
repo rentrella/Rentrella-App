@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
+import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
@@ -35,10 +36,11 @@ class AppSubButton extends StatelessWidget {
             vertical: AppSpacing.s4,
           ),
           child: Row(
-            spacing: AppSpacing.s8,
+            spacing: AppSpacing.s4,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (icon != null) icon!.icon(),
+              if (icon != null)
+                icon!.icon(size: AppSize.s8, color: AppColors.subD_2),
               Text(
                 label,
                 style: AppTextStyle.content5.copyWith(color: AppColors.subD_2),

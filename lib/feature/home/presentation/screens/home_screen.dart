@@ -166,10 +166,12 @@ class _Profile extends StatelessWidget {
               children: [
                 AppSubButton(
                   label: '문의하기',
+                  icon: .bubbleChat,
                   onPressed: () => InquiryDialog.show(context),
                 ),
                 AppSubButton(
                   label: '"마이페이지"로 이동',
+                  icon: .personOutline,
                   onPressed: () {
                     context.pushNamed(AppRoutes.accountAndSetting.name);
                   },
@@ -227,6 +229,13 @@ class _MockData {
   _MockData._();
 
   static List<UmbrellaViewModel> get items => UmbrellaStatus.values.indexed
-      .map((e) => UmbrellaViewModel(id: e.$1 + 1, content: '', status: e.$2))
+      .map(
+        (e) => UmbrellaViewModel(
+          id: e.$1 + 1,
+          content: '',
+          status: e.$2,
+          user: '{{user}}',
+        ),
+      )
       .toList();
 }

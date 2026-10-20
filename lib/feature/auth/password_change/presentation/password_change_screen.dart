@@ -9,6 +9,7 @@ import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
+import 'package:rentrella/core/widgets/app_error_banner.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
 import 'package:rentrella/core/widgets/base/app_base_button.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
@@ -38,6 +39,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
   String? _codeErr;
   String? _pwErr;
   String? _pw2Err;
+  String? _bannerErr;
 
   @override
   void dispose() {
@@ -63,6 +65,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       _codeErr = codeV ? null : AuthErrors.code;
       _pwErr = pwV ? null : AuthErrors.password;
       _pw2Err = pw2V ? null : AuthErrors.passwordConfirm;
+      _bannerErr = AuthErrors.banner(email: emV, password: pwV);
     });
   }
 
@@ -171,6 +174,8 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
               ),
             ),
           ),
+
+          AppErrorBanner(message: _bannerErr),
 
           Material(
             color: AppColors.white,

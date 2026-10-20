@@ -7,6 +7,7 @@ import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
+import 'package:rentrella/core/widgets/app_error_banner.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
 import 'package:rentrella/core/widgets/buttons/app_text_button.dart';
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _emErr;
   String? _pwErr;
+  String? _bannerErr;
 
   @override
   void dispose() {
@@ -48,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _emErr = emV ? null : AuthErrors.email;
       _pwErr = pwV ? null : AuthErrors.password;
+      _bannerErr = AuthErrors.banner(email: emV, password: pwV);
     });
 
     return emV && pwV;
@@ -145,6 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+
+          AppErrorBanner(message: _bannerErr),
 
           Material(
             color: AppColors.white,

@@ -61,6 +61,17 @@ SubmitButton(title: '확인', onPressed: null)  // 비활성
 
 ---
 
+## SubElevatedButton
+
+회색(`subL_4`) 배경 보조 버튼. 다이얼로그의 취소·돌아가기, 선택지 버튼에 사용.
+
+```dart
+SubElevatedButton(label: '취소', onPressed: () {})
+SubElevatedButton(label: '알림 허용', onPressed: () {}, trailing: radioMark)
+```
+
+---
+
 ## AppBaseButton
 
 `InkWell` 기반 최소 버튼 래퍼. 커스텀 버튼 구현 시 기반으로 사용.
@@ -107,7 +118,7 @@ AppDialog.show(context, AppDialog(
 ```
 
 - `padding` 기본 24, `spacing` 기본 18
-- 구현체: `InquiryDialog`(core, 문의하기 — 홈·마이페이지 공용), `BorrowDialog`(home, 우산 대여 확인)
+- 구현체: `InquiryDialog`(core, 문의하기 — 홈·마이페이지 공용), `BorrowDialog`(home, 우산 대여 확인), `NotificationSettingDialog`·`LogoutDialog`(my_page)
 
 ---
 

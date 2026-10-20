@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
-import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
-import 'package:rentrella/core/theme/shadow/app_shadow.dart';
-import 'package:rentrella/core/widgets/base/app_base_button.dart';
+import 'package:rentrella/core/widgets/buttons/sub_elevated_button.dart';
 import 'package:rentrella/core/widgets/buttons/submit_button.dart';
 import 'package:rentrella/core/widgets/dialog/app_dialog.dart';
 
@@ -57,7 +55,8 @@ class BorrowDialog extends StatelessWidget {
           spacing: AppSpacing.s10,
           children: [
             Expanded(
-              child: _CancelButton(
+              child: SubElevatedButton(
+                label: '취소',
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -73,40 +72,6 @@ class BorrowDialog extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _CancelButton extends StatelessWidget {
-  const _CancelButton({required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.subL_4,
-        borderRadius: .circular(AppRadius.r8),
-        boxShadow: const [AppShadow.soft],
-      ),
-      child: AppBaseButton(
-        onPressed: onPressed,
-        radius: AppRadius.r8,
-        splashColor: AppColors.subL_3,
-        child: Padding(
-          padding: .symmetric(
-            horizontal: AppSpacing.s16,
-            vertical: AppSpacing.s12,
-          ),
-          child: Center(
-            child: Text(
-              '취소',
-              style: AppTextStyle.button2.copyWith(color: AppColors.subD_2),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
+import 'package:rentrella/feature/my_page/presentation/widgets/dialogs/logout_dialog.dart';
+import 'package:rentrella/feature/my_page/presentation/widgets/dialogs/notification_setting_dialog.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -50,7 +52,10 @@ class AccountAndSettingPage extends StatelessWidget {
                     MyPageButtonTile(
                       icon: .bell,
                       label: '알림설정',
-                      onPressed: () {},
+                      onPressed: () => NotificationSettingDialog.show(
+                        context,
+                        allowed: true,
+                      ),
                     ),
                     MyPageButtonTile(
                       icon: .lock,
@@ -79,7 +84,10 @@ class AccountAndSettingPage extends StatelessWidget {
             ),
             clipBehavior: .antiAlias,
             child: AppBaseButton(
-              onPressed: () {},
+              onPressed: () => LogoutDialog.show(
+                context,
+                onLogout: () => context.goNamed(AppRoutes.login.name),
+              ),
               radius: AppRadius.r12,
               child: Padding(
                 padding: .symmetric(

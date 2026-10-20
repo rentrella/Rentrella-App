@@ -95,6 +95,22 @@ BaseScaffold(appBar: AppBanner(), body: ...)
 
 ---
 
+## AppDialog
+
+로고 · 제목 · 닫기 버튼 헤더를 가진 다이얼로그 틀. `AppDialog.show`로 띄우면 Figma 기준 배경 딤(`pMulk_1` 40%)이 적용된다.
+
+```dart
+AppDialog.show(context, AppDialog(
+  title: Text('우산 대여하기', style: AppTextStyle.title1),
+  children: [...],
+));
+```
+
+- `padding` 기본 24, `spacing` 기본 18
+- 구현체: `InquiryDialog`(core, 문의하기 — 홈·마이페이지 공용), `BorrowDialog`(home, 우산 대여 확인)
+
+---
+
 ## 위젯 추가 기준
 
 - 2개 이상의 화면에서 동일한 UI가 반복되면 `core/widgets/`로 추출

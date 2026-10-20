@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rentrella/core/routes/app_route.dart';
+import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -42,7 +45,7 @@ class AccountAndSettingPage extends StatelessWidget {
                     MyPageButtonTile(
                       icon: .bubbleChatNew,
                       label: '문의하기',
-                      onPressed: () {},
+                      onPressed: () => InquiryDialog.show(context),
                     ),
                     MyPageButtonTile(
                       icon: .bell,
@@ -52,7 +55,8 @@ class AccountAndSettingPage extends StatelessWidget {
                     MyPageButtonTile(
                       icon: .lock,
                       label: '비밀번호 변경',
-                      onPressed: () {},
+                      onPressed: () =>
+                          context.pushNamed(AppRoutes.passwordChange.name),
                     ),
                   ],
                 ),

@@ -10,6 +10,7 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_divider.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
+import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
 import 'package:rentrella/feature/home/presentation/widgets/home_icon_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
@@ -163,7 +164,10 @@ class _Profile extends StatelessWidget {
             Row(
               spacing: AppSpacing.s4,
               children: [
-                AppSubButton(label: '문의하기', onPressed: () {}),
+                AppSubButton(
+                  label: '문의하기',
+                  onPressed: () => InquiryDialog.show(context),
+                ),
                 AppSubButton(
                   label: '"마이페이지"로 이동',
                   onPressed: () {

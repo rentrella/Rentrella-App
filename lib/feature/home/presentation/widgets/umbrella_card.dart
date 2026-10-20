@@ -11,6 +11,7 @@ import 'package:rentrella/core/widgets/buttons/primary_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_status_chip.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_status_icon.dart';
 import 'package:rentrella/feature/home/presentation/view_models/umbrella_view_model.dart';
+import 'package:rentrella/feature/home/presentation/widgets/borrow_dialog.dart';
 
 class UmbrellaCard extends StatelessWidget {
   const UmbrellaCard._({
@@ -125,7 +126,14 @@ class UmbrellaCard extends StatelessWidget {
             ),
 
             PrimaryButton(
-              onPressed: _btnColor != null ? () {} : null,
+              onPressed: switch (status) {
+                UmbrellaStatus.ready => () => BorrowDialog.show(
+                  context,
+                  umbrella: title,
+                ),
+                _ when _btnColor != null => () {},
+                _ => null,
+              },
               label: _btnLabel,
               background: _btnColor,
             ),

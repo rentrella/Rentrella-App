@@ -31,7 +31,7 @@
 
 ```
 Neutral: black, mainText, subD_1~4, subL_1~5, white, bg_1
-Blue:    primary(#5DAEEA), pD_1~4, pL_1~5
+Blue:    primary(#5DAEEA), pD_1~4, pL_1~5, pMulk_1(다이얼로그 딤)
 Green:   g_1~3
 Red:     r_1~3, o_1
 ```

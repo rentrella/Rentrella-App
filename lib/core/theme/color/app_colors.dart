@@ -29,6 +29,7 @@ class AppColors {
   static const pL_3 = Color(0xffBAE6FD);
   static const pL_4 = Color(0xffEAF8FF);
   static const pL_5 = Color(0xffEAEEFC);
+  static const pMulk_1 = Color(0xff4A6FA5); // 다이얼로그 배경 딤
 
   /// Green
   static const g_1 = Color(0xff15803D);

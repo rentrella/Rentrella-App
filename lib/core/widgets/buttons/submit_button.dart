@@ -19,7 +19,7 @@ class SubmitButton extends StatelessWidget {
 
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(AppRadius.r8),
-      boxShadow: const [AppShadow.card],
+      boxShadow: const [AppShadow.button],
     );
 
     final style = AppTextStyle.button2;

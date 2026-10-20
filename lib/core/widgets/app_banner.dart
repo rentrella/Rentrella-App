@@ -14,7 +14,7 @@ class AppBanner extends StatelessWidget {
 
   static final _decoration = BoxDecoration(
     color: AppColors.white,
-    boxShadow: const [AppShadow.card],
+    boxShadow: const [AppShadow.button],
     border: Border.all(color: AppColors.subL_3, width: 1),
   );
 
@@ -31,8 +31,13 @@ class AppBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          AppIcon.appLogo.icon(width: AppSize.s160),
-          const Spacer(),
+          // 우측 suffix 공간이 부족하면 로고가 줄어들도록 Expanded 처리
+          Expanded(
+            child: Align(
+              alignment: .centerLeft,
+              child: AppIcon.appLogo.icon(width: AppSize.s160),
+            ),
+          ),
           ?suffix,
         ],
       ),

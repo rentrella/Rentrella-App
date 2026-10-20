@@ -291,7 +291,7 @@ class _CheckTermTileState extends State<_CheckTermTile> {
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.white,
-                  boxShadow: const [AppShadow.card],
+                  boxShadow: const [AppShadow.button],
                   borderRadius: BorderRadius.circular(AppRadius.r8),
                   border: Border.all(color: AppColors.subL_3, width: 1),
                 ),

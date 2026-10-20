@@ -1,27 +1,39 @@
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/main_route.dart';
+import 'package:rentrella/feature/splash/presentation/screens/splash_screen.dart';
 
 import 'auth_route.dart';
 
 final appRoute = GoRouter(
-  initialLocation: AppRoutes.login.fullPath,
-  routes: [AuthRoute(), MainRoute()],
+  initialLocation: AppRoutes.splash.fullPath,
+  routes: [
+    GoRoute(
+      path: AppRoutes.splash.path,
+      name: AppRoutes.splash.name,
+      builder: (context, state) => const SplashScreen(),
+    ),
+    AuthRoute(),
+    MainRoute(),
+  ],
 );
 
-/// section
-
 enum AppRoutes {
+  /// splash
+  splash('/splash', 'SPLASH'),
+
   /// section
-  auth('/auth', 'auth'),
-  main('/main', 'main'),
+  auth('/auth', 'AUTH'),
+  main('/main', 'MAIN'),
 
   /// auth
-  login('login', 'login'),
-  signup('signup', 'signup'),
-  passwordChange('password_change', 'password_change'),
+  login('login', 'LOGIN'),
+  signup('signup', 'SIGNUP'),
+  passwordChange('password_change', 'PASSWORD_CHANGE'),
 
   /// main
-  home('home', 'home');
+  home('home', 'HOME'),
+  accountAndSetting('account_and_setting', 'ACCOUNT_AND_SETTING'),
+  notificationHistory('notification_history', 'NOTIFICATION_HISTORY');
 
   final String path;
   final String name;
@@ -30,7 +42,7 @@ enum AppRoutes {
 
   String get fullPath => switch (this) {
     login || signup || passwordChange => '${auth.path}/$path',
-    home => '${main.path}/$path',
-    auth || main => path,
+    home || accountAndSetting || notificationHistory => '${main.path}/$path',
+    splash || auth || main => path,
   };
 }

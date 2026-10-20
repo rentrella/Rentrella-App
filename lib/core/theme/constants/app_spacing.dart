@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppSpacing {
@@ -7,6 +8,7 @@ class AppSpacing {
   static double get s2 => 2.r;
   static double get s4 => 4.r;
   static double get s8 => 8.r;
+  static double get s10 => 10.r;
   static double get s12 => 12.r;
   static double get s14 => 14.r;
   static double get s16 => 16.r;
@@ -22,4 +24,10 @@ class AppSpacing {
   static double get s52 => 52.r;
   static double get s56 => 56.r;
   static double get s60 => 60.r;
+}
+
+extension QuickGap on double {
+  SizedBox get gapW => SizedBox(width: this);
+
+  SizedBox get gapH => SizedBox(height: this);
 }

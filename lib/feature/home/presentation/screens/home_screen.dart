@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/enum/umbrella_status.dart';
+import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
@@ -8,7 +10,8 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_divider.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
-import 'package:rentrella/core/widgets/buttons/app_icon_button.dart';
+import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
+import 'package:rentrella/feature/home/presentation/widgets/home_icon_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
 import 'package:rentrella/feature/home/presentation/view_models/umbrella_view_model.dart';
@@ -93,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 boxShadow: _hdElevation.emphasis
-                    ? const [AppShadow.card]
+                    ? const [AppShadow.button]
                     : null,
               ),
               padding: EdgeInsets.symmetric(
@@ -161,8 +164,18 @@ class _Profile extends StatelessWidget {
             Row(
               spacing: AppSpacing.s4,
               children: [
-                AppSubButton(title: '문의하기', onPressed: () {}),
-                AppSubButton(title: '"마이페이지"로 이동', onPressed: () {}),
+                AppSubButton(
+                  label: '문의하기',
+                  icon: .bubbleChat,
+                  onPressed: () => InquiryDialog.show(context),
+                ),
+                AppSubButton(
+                  label: '"마이페이지"로 이동',
+                  icon: .personOutline,
+                  onPressed: () {
+                    context.pushNamed(AppRoutes.accountAndSetting.name);
+                  },
+                ),
               ],
             ),
           ],
@@ -170,7 +183,7 @@ class _Profile extends StatelessWidget {
 
         AppSize.s12.gapW,
 
-        AppIconButton(onPressed: () {}, icon: .bell),
+        HomeIconButton(onPressed: () {}, icon: .bell),
       ],
     );
   }
@@ -216,6 +229,13 @@ class _MockData {
   _MockData._();
 
   static List<UmbrellaViewModel> get items => UmbrellaStatus.values.indexed
-      .map((e) => UmbrellaViewModel(id: e.$1 + 1, content: '', status: e.$2))
+      .map(
+        (e) => UmbrellaViewModel(
+          id: e.$1 + 1,
+          content: '',
+          status: e.$2,
+          user: '{{user}}',
+        ),
+      )
       .toList();
 }

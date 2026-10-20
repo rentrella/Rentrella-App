@@ -58,9 +58,3 @@ class AppSize {
 
   static double get s180 => 180.r;
 }
-
-extension QuickGap on double {
-  SizedBox get gapW => SizedBox(width: this);
-
-  SizedBox get gapH => SizedBox(height: this);
-}

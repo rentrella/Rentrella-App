@@ -31,7 +31,7 @@
 
 ```
 Neutral: black, mainText, subD_1~4, subL_1~5, white, bg_1
-Blue:    primary(#5DAEEA), pD_1~4, pL_1~5
+Blue:    primary(#5DAEEA), pD_1~4, pL_1~5, pMulk_1(다이얼로그 딤)
 Green:   g_1~3
 Red:     r_1~3, o_1
 ```
@@ -61,7 +61,9 @@ Red:     r_1~3, o_1
 
 | 상수 | offset | blur | 용도 |
 |------|--------|------|------|
-| `card` | (0, 1) | 4 | 카드, 버튼 |
+| `button` | (0, 1) | 4 | 버튼 |
+| `card` | (0, 1) | 4 | 카드 |
+| `soft` | (0, 2) | 2 | 탭바, 알림 카드 |
 | `field` | (0, 3) | 4 | 텍스트 필드 |
 
 ## AppIcon 사용법
@@ -70,6 +72,8 @@ Red:     r_1~3, o_1
 AppIcon.email.icon(size: AppSize.s12)
 AppIcon.lock.icon(size: AppSize.s16, color: AppColors.primary)
 ```
+
+로고: `appLogo`(배너용 가로 로고), `logoIcon`(64 앱 아이콘), `logoWordmark`(Rentrella 워드마크, 스플래시)
 
 아이콘 목록: `email`, `lock`, `key`, `visibility`, `visibilityOff`, `person`, `arrowBack`, `close`, `bell` 등
 전체 목록: `theme/icon/app_icon.dart` 참고

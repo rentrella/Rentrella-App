@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rentrella/core/enum/notification_status.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
@@ -8,6 +7,9 @@ import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
+import 'package:rentrella/core/utils/date_utils.dart';
+import 'package:rentrella/core/widgets/app_chip.dart';
+import 'package:rentrella/core/widgets/app_icon_box.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -91,8 +93,6 @@ class NotificationCard extends StatelessWidget {
   final DateTime? endDate;
   final Duration? overdue;
 
-  static final _formatter = DateFormat('yyyy-MM-dd HH:mm');
-
   bool get _isOverdue => status == NotificationStatus.overdue;
 
   (AppIcon, Color) get _leading => switch (status) {
@@ -126,14 +126,7 @@ class NotificationCard extends StatelessWidget {
         crossAxisAlignment: .start,
         spacing: AppSpacing.s16,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: iconBackground,
-              borderRadius: .circular(AppRadius.r8),
-            ),
-            padding: .all(AppSpacing.s8),
-            child: icon.icon(size: AppSize.s12, color: AppColors.white),
-          ),
+          AppIconBox(icon: icon, background: iconBackground, size: AppSize.s12),
 
           Expanded(
             child: Column(
@@ -160,20 +153,7 @@ class NotificationCard extends StatelessWidget {
           ),
 
           if (label != null)
-            Container(
-              decoration: BoxDecoration(
-                color: label.$2,
-                borderRadius: .circular(AppRadius.r18),
-              ),
-              padding: .symmetric(
-                horizontal: AppSpacing.s8,
-                vertical: AppSpacing.s4,
-              ),
-              child: Text(
-                label.$1,
-                style: AppTextStyle.content4.copyWith(color: label.$3),
-              ),
-            ),
+            AppChip(label: label.$1, background: label.$2, color: label.$3),
         ],
       ),
     );
@@ -185,11 +165,11 @@ class NotificationCard extends StatelessWidget {
     return Row(
       spacing: AppSpacing.s12,
       children: [
-        Text(_formatter.format(date), style: style),
+        Text(AppDateUtils.formatDurationDate(date), style: style),
         if (endDate != null) ...[
           Text('~', style: style),
           Text(
-            _formatter.format(endDate!),
+            AppDateUtils.formatDurationDate(endDate!),
             style: style.copyWith(
               color: _isOverdue ? AppColors.r_2 : AppColors.primary,
             ),

@@ -135,6 +135,26 @@ Material(child: SubmitButton(...)),
 
 ---
 
+## AppChip / AppIconBox
+
+상태 라벨 칩과 색 배경 아이콘 박스. `UmbrellaStatusChip`·`UmbrellaStatusIcon`, `NotificationCard`가 내부적으로 사용한다.
+
+```dart
+AppChip(label: '연체됨', background: AppColors.r_3, color: AppColors.r_2)
+AppIconBox(icon: .umbrellaFold, background: AppColors.primary, size: AppSize.s12)
+```
+
+---
+
+## auth 전용: AuthFormLayout / PasswordTextField
+
+위치: `feature/auth/core/widgets/`
+
+- `AuthFormLayout` — 인증 화면 공통 틀. `title`, `subtitle`, `fields`, `submitLabel`, `onSubmit`, `footerText`·`footerAction`·`onFooterAction`, `bannerError`
+- `PasswordTextField` — 보기/숨기기 토글을 내부 상태로 가진 비밀번호 필드
+
+---
+
 ## 위젯 추가 기준
 
 - 2개 이상의 화면에서 동일한 UI가 반복되면 `core/widgets/`로 추출

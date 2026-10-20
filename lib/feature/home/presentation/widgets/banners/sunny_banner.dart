@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class SunnyBanner extends StatefulWidget {
-  const SunnyBanner();
+  const SunnyBanner({super.key});
 
   @override
   State<SunnyBanner> createState() => _SunnyBannerState();
@@ -31,8 +31,7 @@ class _SunnyBannerState extends State<SunnyBanner>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, _) =>
-          CustomPaint(painter: _SunnyPainter(_controller.value)),
+      builder: (_, _) => CustomPaint(painter: _SunnyPainter(_controller.value)),
     );
   }
 }
@@ -63,19 +62,22 @@ class _SunnyPainter extends CustomPainter {
     final r = size.height * 0.390;
 
     canvas.drawCircle(
-      center, r * 2.3,
+      center,
+      r * 2.3,
       Paint()
         ..color = const Color.fromRGBO(255, 228, 119, 0.07)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 42),
     );
     canvas.drawCircle(
-      center, r * 1.65,
+      center,
+      r * 1.65,
       Paint()
         ..color = const Color.fromRGBO(255, 228, 119, 0.15)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 22),
     );
     canvas.drawCircle(
-      center, r * 1.28,
+      center,
+      r * 1.28,
       Paint()
         ..color = const Color.fromRGBO(255, 228, 119, 0.26)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
@@ -95,12 +97,54 @@ class _SunnyPainter extends CustomPainter {
           colors: [Color(0x284DC468), Color(0xFF38B055)],
         ).createShader(groundRect),
     );
-    _drawBush(canvas, size, cx: 0.07, cy: 0.96, r: 0.13, color: const Color(0xFF3CAD58));
-    _drawBush(canvas, size, cx: 0.23, cy: 0.95, r: 0.15, color: const Color(0xFF48BC64));
-    _drawBush(canvas, size, cx: 0.42, cy: 0.97, r: 0.12, color: const Color(0xFF42B65E));
-    _drawBush(canvas, size, cx: 0.60, cy: 0.94, r: 0.14, color: const Color(0xFF4EC26A));
-    _drawBush(canvas, size, cx: 0.77, cy: 0.96, r: 0.13, color: const Color(0xFF44B860));
-    _drawBush(canvas, size, cx: 0.93, cy: 0.95, r: 0.11, color: const Color(0xFF3CAD58));
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.07,
+      cy: 0.96,
+      r: 0.13,
+      color: const Color(0xFF3CAD58),
+    );
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.23,
+      cy: 0.95,
+      r: 0.15,
+      color: const Color(0xFF48BC64),
+    );
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.42,
+      cy: 0.97,
+      r: 0.12,
+      color: const Color(0xFF42B65E),
+    );
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.60,
+      cy: 0.94,
+      r: 0.14,
+      color: const Color(0xFF4EC26A),
+    );
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.77,
+      cy: 0.96,
+      r: 0.13,
+      color: const Color(0xFF44B860),
+    );
+    _drawBush(
+      canvas,
+      size,
+      cx: 0.93,
+      cy: 0.95,
+      r: 0.11,
+      color: const Color(0xFF3CAD58),
+    );
   }
 
   void _drawBush(

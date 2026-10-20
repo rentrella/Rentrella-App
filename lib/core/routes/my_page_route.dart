@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/feature/my_page/presentation/screens/my_page_screen.dart';
-import 'package:rentrella/feature/my_page/presentation/widgets/pages/account_and_setting_page.dart';
-import 'package:rentrella/feature/my_page/presentation/widgets/pages/notification_history_page.dart';
+import 'package:rentrella/feature/my_page/presentation/pages/account_and_setting_page.dart';
+import 'package:rentrella/feature/my_page/presentation/pages/notification_history_page.dart';
 
 class MyPageRoute extends StatefulShellRoute {
   MyPageRoute()

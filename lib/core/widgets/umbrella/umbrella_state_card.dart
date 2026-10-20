@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rentrella/core/enum/umbrella_status.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
@@ -158,19 +157,18 @@ class UmbrellaStateCard extends StatelessWidget {
 
     // design
     final style = AppTextStyle.content4;
-    final formater = DateFormat('yyyy-MM-dd hh:mm');
 
     return Row(
       spacing: AppSpacing.s4,
       crossAxisAlignment: .end,
       children: [
         Text(
-          formater.format(startD),
+          AppDateUtils.formatDurationDate(startD),
           style: style.copyWith(color: AppColors.subL_2),
         ),
         Text('~', style: style.copyWith(color: AppColors.subL_2)),
         Text(
-          formater.format(endD),
+          AppDateUtils.formatDurationDate(endD),
           style: style.copyWith(
             color: isOverdue ? AppColors.r_2 : AppColors.g_2,
           ),

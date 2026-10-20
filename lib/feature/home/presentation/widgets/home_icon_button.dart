@@ -7,7 +7,11 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/base/app_base_button.dart';
 
 class HomeIconButton extends StatelessWidget {
-  const HomeIconButton({super.key, required this.onPressed, required this.icon});
+  const HomeIconButton({
+    super.key,
+    required this.onPressed,
+    required this.icon,
+  });
 
   final VoidCallback onPressed;
   final AppIcon icon;

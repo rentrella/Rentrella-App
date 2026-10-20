@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -51,7 +50,7 @@ class MyPageAppBar extends StatelessWidget {
 }
 
 class _TopTabBar extends StatefulWidget {
-  const _TopTabBar({super.key, required this.navigationShell});
+  const _TopTabBar({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 

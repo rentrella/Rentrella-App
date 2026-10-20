@@ -27,7 +27,9 @@ class CustomCheckBoxTile extends StatelessWidget {
         SizedBox.square(
           dimension: AppSize.s16,
           child: Checkbox(
-            overlayColor: WidgetStateProperty.all(AppColors.subL_1.withAlpha(32)),
+            overlayColor: WidgetStateProperty.all(
+              AppColors.subL_1.withAlpha(32),
+            ),
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             activeColor: AppColors.primary,
             value: check,
@@ -44,7 +46,7 @@ class CustomCheckBoxTile extends StatelessWidget {
           style: AppTextStyle.body4.copyWith(color: AppColors.subD_3),
         ),
 
-        if (suffix != null) suffix!,
+        ?suffix,
       ],
     );
   }

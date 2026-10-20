@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
-import 'package:rentrella/core/theme/color/app_colors.dart';
-import 'package:rentrella/core/theme/constants/app_size.dart';
-import 'package:rentrella/core/theme/constants/app_spacing.dart';
-import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
-import 'package:rentrella/core/widgets/app_banner.dart';
-import 'package:rentrella/core/widgets/app_error_banner.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
-import 'package:rentrella/core/widgets/base/base_scaffold.dart';
 import 'package:rentrella/core/widgets/buttons/app_text_button.dart';
-import 'package:rentrella/core/widgets/buttons/submit_button.dart';
 import 'package:rentrella/feature/auth/core/auth_validators.dart';
+import 'package:rentrella/feature/auth/core/widgets/auth_form_layout.dart';
+import 'package:rentrella/feature/auth/core/widgets/password_text_field.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,7 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emCtrl = TextEditingController();
   final _pwCtrl = TextEditingController();
 
-  bool hide = true;
   bool check = false;
 
   String? _emErr;
@@ -58,145 +51,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBar: const AppBanner(),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSpacing.s24,
-                  horizontal: AppSpacing.s16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('로그인', style: AppTextStyle.title1),
-                        Text(
-                          'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
-                          style: AppTextStyle.body4.copyWith(
-                            color: AppColors.subD_4,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    AppSpacing.s24.gapH,
-
-                    Column(
-                      spacing: AppSpacing.s28,
-                      children: [
-                        AppTextField(
-                          label: '이메일',
-                          hint: '이메일을 입력해 주세요.',
-                          prefixIcon: AppIcon.email,
-                          controller: _emCtrl,
-                          error: _emErr,
-                        ),
-                        AppTextField(
-                          label: '비밀번호',
-                          hint: '비밀번호를 입력해 주세요.',
-                          prefixIcon: AppIcon.lock,
-                          controller: _pwCtrl,
-                          error: _pwErr,
-                          hide: hide,
-                          suffix: IconButton(
-                            style: IconButton.styleFrom(),
-                            onPressed: () {
-                              setState(() {
-                                hide = !hide;
-                              });
-                            },
-                            icon:
-                                (hide
-                                        ? AppIcon.visibilityOff
-                                        : AppIcon.visibility)
-                                    .icon(size: AppSize.s12),
-                          ),
-                        ),
-
-                        CustomCheckBoxTile(
-                          check: check,
-                          action: (value) {
-                            setState(() {
-                              check = !check;
-                            });
-                          },
-                          label: '로그인 유지',
-                          suffix: Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: AppTextButton(
-                                label: '비밀번호 찾기',
-                                onPressed: () {
-                                  context.goNamed(
-                                    AppRoutes.passwordChange.name,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+    return AuthFormLayout(
+      title: '로그인',
+      subtitle: 'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
+      bannerError: _bannerErr,
+      submitLabel: '로그인 하기',
+      onSubmit: () {
+        if (_validate()) context.goNamed(AppRoutes.home.name);
+      },
+      footerText: '계정이 없나요?',
+      footerAction: '회원가입',
+      onFooterAction: () => context.goNamed(AppRoutes.signup.name),
+      fields: [
+        AppTextField(
+          label: '이메일',
+          hint: '이메일을 입력해 주세요.',
+          prefixIcon: AppIcon.email,
+          controller: _emCtrl,
+          error: _emErr,
+        ),
+        PasswordTextField(
+          label: '비밀번호',
+          hint: '비밀번호를 입력해 주세요.',
+          controller: _pwCtrl,
+          error: _pwErr,
+        ),
+        CustomCheckBoxTile(
+          check: check,
+          action: (value) => setState(() => check = !check),
+          label: '로그인 유지',
+          suffix: Expanded(
+            child: Align(
+              alignment: .centerRight,
+              child: AppTextButton(
+                label: '비밀번호 찾기',
+                onPressed: () => context.goNamed(AppRoutes.passwordChange.name),
               ),
             ),
           ),
-
-          AppErrorBanner(message: _bannerErr),
-
-          Material(
-            color: AppColors.white,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.s16,
-                vertical: AppSpacing.s12,
-              ),
-              child: Column(
-                spacing: AppSpacing.s12,
-                children: [
-                  SubmitButton(
-                    onPressed: () {
-                      if (_validate()) {
-                        context.goNamed(AppRoutes.main.name);
-                      }
-                    },
-                    title: '로그인 하기',
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(AppSpacing.s4),
-                    child: Row(
-                      spacing: AppSpacing.s16,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '계정이 없나요?',
-                          style: AppTextStyle.content2.copyWith(
-                            color: AppColors.subL_1,
-                          ),
-                        ),
-                        AppTextButton(
-                          label: '회원가입',
-                          color: AppColors.pD_3,
-                          onPressed: () {
-                            context.goNamed(AppRoutes.signup.name);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -122,6 +122,19 @@ AppDialog.show(context, AppDialog(
 
 ---
 
+## AppErrorBanner
+
+하단 버튼 영역 바로 위에 붙는 에러 배너 (`Error | 메시지`). `message`가 null이면 접힌다.
+
+```dart
+AppErrorBanner(message: _bannerErr),
+Material(child: SubmitButton(...)),
+```
+
+로그인·비밀번호 변경 화면에서 `AuthErrors.banner(email:, password:)`로 메시지를 정한다.
+
+---
+
 ## 위젯 추가 기준
 
 - 2개 이상의 화면에서 동일한 UI가 반복되면 `core/widgets/`로 추출

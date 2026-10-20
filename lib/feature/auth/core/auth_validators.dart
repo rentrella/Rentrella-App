@@ -12,4 +12,12 @@ class AuthErrors {
   static const password = '비밀번호는 6-20자 내의 영문+숫자-특수문자 형식을 따라야 합니다.';
   static const passwordConfirm = '비밀번호가 일치하지 않습니다.';
   static const code = '인증 번호가 일치하지 않습니다.';
+
+  /// 하단 에러 배너 메시지
+  static const emailBanner = '이메일이 올바르지 않습니다.';
+  static const passwordBanner = '비밀번호가 올바르지 않습니다.';
+
+  /// 이메일 → 비밀번호 순으로 첫 번째 오류에 해당하는 배너 메시지
+  static String? banner({required bool email, required bool password}) =>
+      !email ? emailBanner : (!password ? passwordBanner : null);
 }

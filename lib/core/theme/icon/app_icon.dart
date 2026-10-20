@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../color/app_colors.dart';
+
 enum AppIcon {
   /// main
   appIcon('app_icon.svg'),
@@ -58,5 +60,20 @@ enum AppIcon {
     width: width ?? size,
     height: height ?? size,
     color: color,
+  );
+
+  IconButton iconBtn({
+    required VoidCallback? onPressed,
+    Color? color,
+    Color splashColor = AppColors.subL_5,
+    double? size,
+  }) => IconButton(
+    style: IconButton.styleFrom(
+      overlayColor: splashColor.withAlpha(180),
+      tapTargetSize: .shrinkWrap,
+      minimumSize: .zero,
+    ),
+    onPressed: onPressed,
+    icon: icon(color: color, size: size),
   );
 }

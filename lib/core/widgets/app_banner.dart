@@ -14,7 +14,7 @@ class AppBanner extends StatelessWidget {
 
   static final _decoration = BoxDecoration(
     color: AppColors.white,
-    boxShadow: const [AppShadow.card],
+    boxShadow: const [AppShadow.button],
     border: Border.all(color: AppColors.subL_3, width: 1),
   );
 

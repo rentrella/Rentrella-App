@@ -6,8 +6,8 @@ import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/base/app_base_button.dart';
 
-class AppIconButton extends StatelessWidget {
-  const AppIconButton({super.key, required this.onPressed, required this.icon});
+class HomeIconButton extends StatelessWidget {
+  const HomeIconButton({super.key, required this.onPressed, required this.icon});
 
   final VoidCallback onPressed;
   final AppIcon icon;
@@ -21,7 +21,7 @@ class AppIconButton extends StatelessWidget {
         shape: .circle,
         color: AppColors.white,
         border: .all(color: AppColors.subL_3, width: 1),
-        boxShadow: const [AppShadow.card],
+        boxShadow: const [AppShadow.button],
       ),
       child: AppBaseButton(
         onPressed: onPressed,

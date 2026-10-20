@@ -9,12 +9,12 @@ import 'package:rentrella/core/widgets/base/app_base_button.dart';
 class AppSubButton extends StatelessWidget {
   const AppSubButton({
     super.key,
-    required this.title,
+    required this.label,
     this.icon,
     required this.onPressed,
   });
 
-  final String title;
+  final String label;
   final AppIcon? icon;
   final VoidCallback onPressed;
 
@@ -40,7 +40,7 @@ class AppSubButton extends StatelessWidget {
             children: [
               if (icon != null) icon!.icon(),
               Text(
-                title,
+                label,
                 style: AppTextStyle.content5.copyWith(color: AppColors.subD_2),
               ),
             ],

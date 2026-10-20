@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
     final decoration = BoxDecoration(
       color: background,
       borderRadius: .circular(AppRadius.r8),
-      boxShadow: const [AppShadow.card],
+      boxShadow: const [AppShadow.button],
     );
 
     return Container(

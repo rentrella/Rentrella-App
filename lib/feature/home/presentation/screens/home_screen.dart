@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/enum/umbrella_status.dart';
+import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
@@ -8,7 +10,7 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_divider.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
-import 'package:rentrella/core/widgets/buttons/app_icon_button.dart';
+import 'package:rentrella/feature/home/presentation/widgets/home_icon_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
 import 'package:rentrella/feature/home/presentation/view_models/umbrella_view_model.dart';
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 boxShadow: _hdElevation.emphasis
-                    ? const [AppShadow.card]
+                    ? const [AppShadow.button]
                     : null,
               ),
               padding: EdgeInsets.symmetric(
@@ -161,8 +163,13 @@ class _Profile extends StatelessWidget {
             Row(
               spacing: AppSpacing.s4,
               children: [
-                AppSubButton(title: '문의하기', onPressed: () {}),
-                AppSubButton(title: '"마이페이지"로 이동', onPressed: () {}),
+                AppSubButton(label: '문의하기', onPressed: () {}),
+                AppSubButton(
+                  label: '"마이페이지"로 이동',
+                  onPressed: () {
+                    context.pushNamed(AppRoutes.accountAndSetting.name);
+                  },
+                ),
               ],
             ),
           ],
@@ -170,7 +177,7 @@ class _Profile extends StatelessWidget {
 
         AppSize.s12.gapW,
 
-        AppIconButton(onPressed: () {}, icon: .bell),
+        HomeIconButton(onPressed: () {}, icon: .bell),
       ],
     );
   }

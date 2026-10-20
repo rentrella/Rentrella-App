@@ -228,7 +228,7 @@ class _ActionButton extends StatelessWidget {
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(AppRadius.r8),
       color: enable ? AppColors.primary : AppColors.subL_3,
-      boxShadow: enable ? const [AppShadow.card] : null,
+      boxShadow: enable ? const [AppShadow.button] : null,
     );
 
     return Container(

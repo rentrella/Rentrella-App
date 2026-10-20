@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rentrella/feature/home/presentation/screens/home_screen.dart';
 
 import 'app_route.dart';
+import 'my_page_route.dart';
 
 class MainRoute extends GoRoute {
   MainRoute()
@@ -13,14 +14,14 @@ class MainRoute extends GoRoute {
           }
           return null;
         },
-      );
+        routes: [
+          GoRoute(
+            path: AppRoutes.home.path,
+            name: AppRoutes.main.name,
+            builder: (context, state) => const HomeScreen(),
+          ),
 
-  @override
-  List<RouteBase> get routes => [
-    GoRoute(
-      path: AppRoutes.home.path,
-      name: AppRoutes.main.name,
-      builder: (context, state) => const HomeScreen(),
-    ),
-  ];
+          MyPageRoute(),
+        ],
+      );
 }

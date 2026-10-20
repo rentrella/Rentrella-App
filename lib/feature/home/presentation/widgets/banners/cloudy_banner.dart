@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class CloudyBanner extends StatefulWidget {
-  const CloudyBanner();
+  const CloudyBanner({super.key});
 
   @override
   State<CloudyBanner> createState() => _CloudyBannerState();
@@ -54,15 +54,36 @@ class _CloudyPainter extends CustomPainter {
     final rect = Offset.zero & size;
     canvas.drawRect(rect, Paint()..shader = _bg.createShader(rect));
 
-    _drawCloud(canvas, size,
-        baseX: 0.22, relY: 0.88, r: size.height * 0.30,
-        driftAmp: 0.04, phase: 4.19, opacity: 0.22);
-    _drawCloud(canvas, size,
-        baseX: 0.44, relY: 0.62, r: size.height * 0.37,
-        driftAmp: 0.05, phase: 2.09, opacity: 0.33);
-    _drawCloud(canvas, size,
-        baseX: 0.72, relY: 0.08, r: size.height * 0.46,
-        driftAmp: 0.06, phase: 0.00, opacity: 0.48);
+    _drawCloud(
+      canvas,
+      size,
+      baseX: 0.22,
+      relY: 0.88,
+      r: size.height * 0.30,
+      driftAmp: 0.04,
+      phase: 4.19,
+      opacity: 0.22,
+    );
+    _drawCloud(
+      canvas,
+      size,
+      baseX: 0.44,
+      relY: 0.62,
+      r: size.height * 0.37,
+      driftAmp: 0.05,
+      phase: 2.09,
+      opacity: 0.33,
+    );
+    _drawCloud(
+      canvas,
+      size,
+      baseX: 0.72,
+      relY: 0.08,
+      r: size.height * 0.46,
+      driftAmp: 0.06,
+      phase: 0.00,
+      opacity: 0.48,
+    );
   }
 
   void _drawCloud(
@@ -81,7 +102,12 @@ class _CloudyPainter extends CustomPainter {
   }
 
   void _paintCloud(
-      Canvas canvas, double cx, double cy, double r, double opacity) {
+    Canvas canvas,
+    double cx,
+    double cy,
+    double r,
+    double opacity,
+  ) {
     final body = Paint()
       ..color = Color.fromRGBO(255, 255, 255, opacity)
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * 0.38);
@@ -95,8 +121,7 @@ class _CloudyPainter extends CustomPainter {
 
   void _cloudOvals(Canvas canvas, double cx, double cy, double r, Paint paint) {
     canvas.drawOval(
-      Rect.fromCenter(
-          center: Offset(cx, cy), width: r * 2.8, height: r * 1.3),
+      Rect.fromCenter(center: Offset(cx, cy), width: r * 2.8, height: r * 1.3),
       paint,
     );
     canvas.drawCircle(Offset(cx - r * 0.75, cy - r * 0.48), r * 0.82, paint);

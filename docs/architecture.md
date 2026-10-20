@@ -52,6 +52,9 @@ feature/<도메인>/<기능>/
 ```
 
 auth 내부 공통은 `feature/auth/core/` 에 위치.
+인증 화면(로그인·회원가입·비밀번호 변경)은 `AuthFormLayout`으로 공통 레이아웃(제목·폼·에러 배너·제출 버튼·하단 링크)을 구성하고, 화면은 필드와 검증만 가진다.
+
+탭 페이지처럼 화면 일부를 채우는 페이지는 `presentation/pages/`, 화면 전용 위젯은 `presentation/widgets/`에 둔다.
 
 ## 구현된 화면
 
@@ -62,8 +65,8 @@ auth 내부 공통은 `feature/auth/core/` 에 위치.
 | 회원가입 | `/auth/signup` | `auth/signup/presentation/signup_screen.dart` |
 | 비밀번호 변경 | `/auth/password_change` | `auth/password_change/presentation/password_change_screen.dart` |
 | 홈 | `/main/home` | `home/presentation/screens/home_screen.dart` |
-| 마이페이지 · 계정 정보 및 설정 | `/main/account_and_setting` | `my_page/presentation/widgets/pages/account_and_setting_page.dart` |
-| 마이페이지 · 알림 내역 | `/main/notification_history` | `my_page/presentation/widgets/pages/notification_history_page.dart` |
+| 마이페이지 · 계정 정보 및 설정 | `/main/account_and_setting` | `my_page/presentation/pages/account_and_setting_page.dart` |
+| 마이페이지 · 알림 내역 | `/main/notification_history` | `my_page/presentation/pages/notification_history_page.dart` |
 
 마이페이지는 `MyPageRoute`(StatefulShellRoute.indexedStack)로 두 탭을 묶고, `MyPageScreen`이 공통 앱바·탭바를 그린다.
 `MainRoute`(`/main`) 하위 라우트이므로 `path`는 `fullPath`가 아닌 상대 경로(`AppRoutes.xxx.path`)를 사용한다.

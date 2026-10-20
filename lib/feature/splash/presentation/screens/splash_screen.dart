@@ -31,10 +31,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
+    return const BaseScaffold(
       backgroundColor: AppColors.white,
       // Figma 기준 로고 중심이 화면 중앙보다 약간 위에 위치
-      body: const Align(alignment: Alignment(0, -0.08), child: _SplashLogo()),
+      body: Align(alignment: Alignment(0, -0.08), child: _SplashLogo()),
     );
   }
 }

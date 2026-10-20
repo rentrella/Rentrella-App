@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class SnowyBanner extends StatefulWidget {
-  const SnowyBanner();
+  const SnowyBanner({super.key});
 
   @override
   State<SnowyBanner> createState() => _SnowyBannerState();
@@ -31,8 +31,7 @@ class _SnowyBannerState extends State<SnowyBanner>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, _) =>
-          CustomPaint(painter: _SnowyPainter(_controller.value)),
+      builder: (_, _) => CustomPaint(painter: _SnowyPainter(_controller.value)),
     );
   }
 }
@@ -51,19 +50,32 @@ class _SnowyPainter extends CustomPainter {
 
   // (baseX, startPhase, radiusRatio, driftPhase)
   static const _flakes = <(double, double, double, double)>[
-    (0.05, 0.00, 0.050, 0.00), (0.12, 0.30, 0.043, 1.57),
-    (0.19, 0.62, 0.064, 3.14), (0.26, 0.15, 0.035, 0.79),
-    (0.33, 0.46, 0.050, 2.36), (0.40, 0.77, 0.043, 4.19),
-    (0.47, 0.22, 0.064, 1.05), (0.54, 0.58, 0.035, 3.56),
-    (0.61, 0.88, 0.050, 5.08), (0.68, 0.10, 0.043, 1.99),
-    (0.75, 0.40, 0.064, 0.52), (0.82, 0.70, 0.035, 4.71),
-    (0.89, 0.25, 0.050, 1.83), (0.96, 0.52, 0.043, 3.25),
-    (0.08, 0.66, 0.064, 5.55), (0.15, 0.36, 0.035, 0.21),
-    (0.22, 0.82, 0.050, 2.81), (0.29, 0.06, 0.043, 4.45),
-    (0.36, 0.44, 0.064, 1.26), (0.43, 0.91, 0.035, 3.77),
-    (0.50, 0.18, 0.050, 5.83), (0.57, 0.60, 0.043, 0.68),
-    (0.64, 0.34, 0.064, 2.51), (0.71, 0.72, 0.035, 4.01),
-    (0.78, 0.13, 0.050, 1.30), (0.85, 0.50, 0.043, 5.34),
+    (0.05, 0.00, 0.050, 0.00),
+    (0.12, 0.30, 0.043, 1.57),
+    (0.19, 0.62, 0.064, 3.14),
+    (0.26, 0.15, 0.035, 0.79),
+    (0.33, 0.46, 0.050, 2.36),
+    (0.40, 0.77, 0.043, 4.19),
+    (0.47, 0.22, 0.064, 1.05),
+    (0.54, 0.58, 0.035, 3.56),
+    (0.61, 0.88, 0.050, 5.08),
+    (0.68, 0.10, 0.043, 1.99),
+    (0.75, 0.40, 0.064, 0.52),
+    (0.82, 0.70, 0.035, 4.71),
+    (0.89, 0.25, 0.050, 1.83),
+    (0.96, 0.52, 0.043, 3.25),
+    (0.08, 0.66, 0.064, 5.55),
+    (0.15, 0.36, 0.035, 0.21),
+    (0.22, 0.82, 0.050, 2.81),
+    (0.29, 0.06, 0.043, 4.45),
+    (0.36, 0.44, 0.064, 1.26),
+    (0.43, 0.91, 0.035, 3.77),
+    (0.50, 0.18, 0.050, 5.83),
+    (0.57, 0.60, 0.043, 0.68),
+    (0.64, 0.34, 0.064, 2.51),
+    (0.71, 0.72, 0.035, 4.01),
+    (0.78, 0.13, 0.050, 1.30),
+    (0.85, 0.50, 0.043, 5.34),
   ];
 
   @override
@@ -79,7 +91,8 @@ class _SnowyPainter extends CustomPainter {
       final r = rr * size.height;
 
       final driftAmp = size.width * 0.016;
-      final x = bx * size.width + driftAmp * math.sin(t * 4 * math.pi + driftPhase);
+      final x =
+          bx * size.width + driftAmp * math.sin(t * 4 * math.pi + driftPhase);
       final y = relY * size.height;
 
       double alpha = 0.90;

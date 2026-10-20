@@ -42,7 +42,10 @@ class PasswordSecurityCard extends StatelessWidget {
                 style: AppTextStyle.content2.copyWith(color: AppColors.black),
               ),
 
-              Text(level.label, style: AppTextStyle.content2.copyWith(color: color)),
+              Text(
+                level.label,
+                style: AppTextStyle.content2.copyWith(color: color),
+              ),
             ],
           ),
 

@@ -3,17 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
-import 'package:rentrella/core/theme/constants/app_size.dart';
 import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
-import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
-import 'package:rentrella/core/widgets/base/base_scaffold.dart';
-import 'package:rentrella/core/widgets/buttons/app_text_button.dart';
-import 'package:rentrella/core/widgets/buttons/submit_button.dart';
 import 'package:rentrella/feature/auth/core/auth_validators.dart';
+import 'package:rentrella/feature/auth/core/widgets/auth_form_layout.dart';
+import 'package:rentrella/feature/auth/core/widgets/password_text_field.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_security_card.dart';
 
@@ -29,8 +26,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final _pwCtrl = TextEditingController();
   final _pw2Ctrl = TextEditingController();
 
-  bool hide = true;
-  bool hide2 = true;
   bool check = false;
 
   String? _emErr;
@@ -63,153 +58,46 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBar: const AppBanner(),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSpacing.s24,
-                  horizontal: AppSpacing.s16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('회원가입', style: AppTextStyle.title1),
-                        Text(
-                          'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
-                          style: AppTextStyle.body4.copyWith(
-                            color: AppColors.subD_4,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    AppSpacing.s24.gapH,
-
-                    Column(
-                      spacing: AppSpacing.s28,
-                      children: [
-                        AppTextField(
-                          label: '이메일',
-                          hint: '이메일을 입력해 주세요.',
-                          prefixIcon: AppIcon.email,
-                          controller: _emCtrl,
-                          error: _emErr,
-                        ),
-
-                        AppTextField(
-                          label: '비밀번호',
-                          hint: '비밀번호를 입력해 주세요.',
-                          prefixIcon: AppIcon.lock,
-                          controller: _pwCtrl,
-                          error: _pwErr,
-                          hide: hide,
-                          suffix: IconButton(
-                            style: IconButton.styleFrom(),
-                            onPressed: () {
-                              setState(() {
-                                hide = !hide;
-                              });
-                            },
-                            icon:
-                                (hide
-                                        ? AppIcon.visibilityOff
-                                        : AppIcon.visibility)
-                                    .icon(size: AppSize.s12),
-                          ),
-                        ),
-
-                        const PasswordSecurityCard(level: .middle),
-
-                        AppTextField(
-                          label: '비밀번호 확인',
-                          hint: '비밀번호를 다시 입력해 주세요.',
-                          prefixIcon: AppIcon.lock,
-                          controller: _pw2Ctrl,
-                          error: _pw2Err,
-                          hide: hide2,
-                          suffix: IconButton(
-                            style: IconButton.styleFrom(),
-                            onPressed: () {
-                              setState(() {
-                                hide2 = !hide2;
-                              });
-                            },
-                            icon:
-                                (hide2
-                                        ? AppIcon.visibilityOff
-                                        : AppIcon.visibility)
-                                    .icon(size: AppSize.s12),
-                          ),
-                        ),
-
-                        _CheckTermTile(
-                          check: check,
-                          action: (value) {
-                            setState(() {
-                              check = !check;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          Material(
-            color: AppColors.white,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.s16,
-                vertical: AppSpacing.s12,
-              ),
-              child: Column(
-                spacing: AppSpacing.s12,
-                children: [
-                  SubmitButton(onPressed: _validate, title: '회원가입 하기'),
-                  Padding(
-                    padding: EdgeInsets.all(AppSpacing.s4),
-                    child: Row(
-                      spacing: AppSpacing.s16,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '이미 계정이 있나요?',
-                          style: AppTextStyle.content2.copyWith(
-                            color: AppColors.subL_1,
-                          ),
-                        ),
-                        AppTextButton(
-                          label: '로그인',
-                          color: AppColors.pD_3,
-                          onPressed: () {
-                            context.goNamed(AppRoutes.login.name);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+    return AuthFormLayout(
+      title: '회원가입',
+      subtitle: 'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
+      submitLabel: '회원가입 하기',
+      onSubmit: _validate,
+      footerText: '이미 계정이 있나요?',
+      footerAction: '로그인',
+      onFooterAction: () => context.goNamed(AppRoutes.login.name),
+      fields: [
+        AppTextField(
+          label: '이메일',
+          hint: '이메일을 입력해 주세요.',
+          prefixIcon: AppIcon.email,
+          controller: _emCtrl,
+          error: _emErr,
+        ),
+        PasswordTextField(
+          label: '비밀번호',
+          hint: '비밀번호를 입력해 주세요.',
+          controller: _pwCtrl,
+          error: _pwErr,
+        ),
+        const PasswordSecurityCard(level: .middle),
+        PasswordTextField(
+          label: '비밀번호 확인',
+          hint: '비밀번호를 다시 입력해 주세요.',
+          controller: _pw2Ctrl,
+          error: _pw2Err,
+        ),
+        _CheckTermTile(
+          check: check,
+          action: (value) => setState(() => check = !check),
+        ),
+      ],
     );
   }
 }
 
 class _CheckTermTile extends StatefulWidget {
-  const _CheckTermTile({super.key, required this.check, required this.action});
+  const _CheckTermTile({required this.check, required this.action});
 
   final bool check;
   final ValueChanged<bool?> action;

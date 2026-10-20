@@ -120,7 +120,7 @@ class AccountAndSettingPage extends StatelessWidget {
 }
 
 class _Profile extends StatelessWidget {
-  const _Profile({super.key});
+  const _Profile();
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,7 @@ class MainRoute extends GoRoute {
         routes: [
           GoRoute(
             path: AppRoutes.home.path,
-            name: AppRoutes.main.name,
+            name: AppRoutes.home.name,
             builder: (context, state) => const HomeScreen(),
           ),
 

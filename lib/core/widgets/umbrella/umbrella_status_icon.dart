@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rentrella/core/enum/umbrella_status.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
-import 'package:rentrella/core/theme/constants/app_radius.dart';
-import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
+import 'package:rentrella/core/widgets/app_icon_box.dart';
 
 class UmbrellaStatusIcon extends StatelessWidget {
   const UmbrellaStatusIcon._({
@@ -62,14 +61,11 @@ class UmbrellaStatusIcon extends StatelessWidget {
   final double? pad;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: .circular(radius ?? AppRadius.r8),
-      ),
-      padding: .all(pad ?? AppSpacing.s8),
-      child: icon.icon(color: AppColors.white, size: size),
-    );
-  }
+  Widget build(BuildContext context) => AppIconBox(
+    icon: icon,
+    background: background,
+    size: size,
+    radius: radius,
+    pad: pad,
+  );
 }

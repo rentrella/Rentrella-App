@@ -7,6 +7,8 @@ enum AppIcon {
   /// main
   appIcon('app_icon.svg'),
   appLogo('logo.svg'),
+  logoIcon('logo_icon.svg'),
+  logoWordmark('logo_wordmark.svg'),
 
   /// else
   alert('alert.svg'),

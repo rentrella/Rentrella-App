@@ -73,5 +73,7 @@ AppIcon.email.icon(size: AppSize.s12)
 AppIcon.lock.icon(size: AppSize.s16, color: AppColors.primary)
 ```
 
+로고: `appLogo`(배너용 가로 로고), `logoIcon`(64 앱 아이콘), `logoWordmark`(Rentrella 워드마크, 스플래시)
+
 아이콘 목록: `email`, `lock`, `key`, `visibility`, `visibilityOff`, `person`, `arrowBack`, `close`, `bell` 등
 전체 목록: `theme/icon/app_icon.dart` 참고

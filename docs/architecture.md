@@ -15,7 +15,8 @@ lib/
 │   │   ├── signup/
 │   │   └── password_change/
 │   ├── home/
-│   └── my_page/     # StatefulShellRoute 탭 (계정·설정 / 알림 내역)
+│   ├── my_page/     # StatefulShellRoute 탭 (계정·설정 / 알림 내역)
+│   └── splash/
 └── main.dart
 ```
 
@@ -27,6 +28,7 @@ lib/
 
 ```dart
 enum AppRoutes {
+  splash,                              // /splash
   auth, main,                          // shell
   login, signup, passwordChange,       // /auth/*
   home,                                // /main/*
@@ -35,7 +37,7 @@ enum AppRoutes {
 ```
 
 화면 이동: `context.goNamed(AppRoutes.xxx.name)`
-초기 경로: `/auth/login`
+초기 경로: `/splash` → 2초 후 `/auth/login`
 
 ## Feature 레이어 패턴
 
@@ -55,6 +57,7 @@ auth 내부 공통은 `feature/auth/core/` 에 위치.
 
 | 화면 | 라우트 | 파일 |
 |------|--------|------|
+| 스플래시 | `/splash` | `splash/presentation/screens/splash_screen.dart` |
 | 로그인 | `/auth/login` | `auth/login/presentation/login_screen.dart` |
 | 회원가입 | `/auth/signup` | `auth/signup/presentation/signup_screen.dart` |
 | 비밀번호 변경 | `/auth/password_change` | `auth/password_change/presentation/password_change_screen.dart` |

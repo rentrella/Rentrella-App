@@ -10,7 +10,7 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/buttons/primary_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_status_chip.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_status_icon.dart';
-import 'package:rentrella/feature/home/presentation/view_models/umbrella_view_model.dart';
+import 'package:rentrella/feature/home/data/models/umbrella_model.dart';
 import 'package:rentrella/feature/home/presentation/widgets/borrow_dialog.dart';
 
 class UmbrellaCard extends StatelessWidget {
@@ -18,52 +18,39 @@ class UmbrellaCard extends StatelessWidget {
     required this.title,
     required this.content,
     required this.status,
+    this.onBorrow,
+    this.onReturn,
   });
 
-  factory UmbrellaCard.formMode(UmbrellaViewModel model) {
-    final String title = '우산 #${NumberFormat('00').format(model.id)}';
-    return switch (model.status) {
-      UmbrellaStatus.ready => UmbrellaCard._(
-        title: title,
-        content: '현재 우산 대여가 가능해요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.rentingByMe => UmbrellaCard._(
-        title: title,
-        content: '현재 우산 대여중에 있어요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.rented => UmbrellaCard._(
-        title: title,
-        content: '${model.user}님께서 우산을 사용하고 있어요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.overdue => UmbrellaCard._(
-        title: title,
-        content: '${model.user}님의 반납이 지연되고 있어요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.overdueByMe => UmbrellaCard._(
-        title: title,
-        content: '우산을 반납하지 않아 연체 되었어요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.unavailable => UmbrellaCard._(
-        title: title,
-        content: '현재 우산 대여가 가능하지 않아요.',
-        status: model.status,
-      ),
-      UmbrellaStatus.broken => UmbrellaCard._(
-        title: title,
-        content: '우산이 파손되어 사용할 수 없어요.',
-        status: model.status,
-      ),
-    };
-  }
+  factory UmbrellaCard.formMode(
+    UmbrellaModel model, {
+    VoidCallback? onBorrow,
+    VoidCallback? onReturn,
+  }) => UmbrellaCard._(
+    title: '우산 #${NumberFormat('00').format(model.id)}',
+    content: switch (model.status) {
+      UmbrellaStatus.ready => '현재 우산 대여가 가능해요.',
+      UmbrellaStatus.rentingByMe => '현재 우산 대여중에 있어요.',
+      UmbrellaStatus.rented => '${model.user}님께서 우산을 사용하고 있어요.',
+      UmbrellaStatus.overdue => '${model.user}님의 반납이 지연되고 있어요.',
+      UmbrellaStatus.overdueByMe => '우산을 반납하지 않아 연체 되었어요.',
+      UmbrellaStatus.unavailable => '현재 우산 대여가 가능하지 않아요.',
+      UmbrellaStatus.broken => '우산이 파손되어 사용할 수 없어요.',
+    },
+    status: model.status,
+    onBorrow: onBorrow,
+    onReturn: onReturn,
+  );
 
   final String title;
   final String content;
   final UmbrellaStatus status;
+
+  /// 대여 다이얼로그에서 "대여하기"를 눌렀을 때
+  final VoidCallback? onBorrow;
+
+  /// "반납하기"를 눌렀을 때
+  final VoidCallback? onReturn;
 
   Color? get _btnColor => switch (status) {
     UmbrellaStatus.ready => AppColors.primary,
@@ -130,8 +117,10 @@ class UmbrellaCard extends StatelessWidget {
                 UmbrellaStatus.ready => () => BorrowDialog.show(
                   context,
                   umbrella: title,
+                  onBorrow: onBorrow,
                 ),
-                _ when _btnColor != null => () {},
+                UmbrellaStatus.rentingByMe ||
+                UmbrellaStatus.overdueByMe => onReturn,
                 _ => null,
               },
               label: _btnLabel,

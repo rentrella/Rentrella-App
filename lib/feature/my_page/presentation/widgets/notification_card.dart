@@ -10,6 +10,7 @@ import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/utils/date_utils.dart';
 import 'package:rentrella/core/widgets/app_chip.dart';
 import 'package:rentrella/core/widgets/app_icon_box.dart';
+import 'package:rentrella/feature/my_page/data/models/notification_model.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -81,6 +82,18 @@ class NotificationCard extends StatelessWidget {
          message: message,
          date: date,
        );
+
+  /// 서버(리포지토리) 모델로부터 생성
+  NotificationCard.fromModel(NotificationModel model, {Key? key})
+    : this(
+        key: key,
+        status: model.status,
+        title: model.title,
+        message: model.message,
+        date: model.date,
+        endDate: model.endDate,
+        overdue: model.overdue,
+      );
 
   final NotificationStatus status;
   final String title;

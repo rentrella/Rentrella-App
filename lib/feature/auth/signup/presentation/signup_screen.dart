@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rentrella/core/enum/form_status.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
@@ -8,90 +10,76 @@ import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
-import 'package:rentrella/feature/auth/core/auth_validators.dart';
 import 'package:rentrella/feature/auth/core/widgets/auth_form_layout.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_text_field.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_security_card.dart';
+import 'package:rentrella/feature/auth/signup/bloc/signup_bloc.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SignupBloc(authRepository: context.read()),
+      child: const _SignupView(),
+    );
+  }
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  final _emCtrl = TextEditingController();
-  final _pwCtrl = TextEditingController();
-  final _pw2Ctrl = TextEditingController();
-
-  bool check = false;
-
-  String? _emErr;
-  String? _pwErr;
-  String? _pw2Err;
-
-  @override
-  void dispose() {
-    _emCtrl.dispose();
-    _pwCtrl.dispose();
-    _pw2Ctrl.dispose();
-    super.dispose();
-  }
-
-  void _validate() {
-    final em = _emCtrl.text.trim();
-    final pw = _pwCtrl.text;
-    final pw2 = _pw2Ctrl.text;
-
-    final emV = AuthValidators.email(em);
-    final pwV = AuthValidators.password(pw);
-    final pw2V = pw == pw2;
-
-    setState(() {
-      _emErr = emV ? null : AuthErrors.email;
-      _pwErr = pwV ? null : AuthErrors.password;
-      _pw2Err = pw2V ? null : AuthErrors.passwordConfirm;
-    });
-  }
+class _SignupView extends StatelessWidget {
+  const _SignupView();
 
   @override
   Widget build(BuildContext context) {
-    return AuthFormLayout(
-      title: '회원가입',
-      subtitle: 'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
-      submitLabel: '회원가입 하기',
-      onSubmit: _validate,
-      footerText: '이미 계정이 있나요?',
-      footerAction: '로그인',
-      onFooterAction: () => context.goNamed(AppRoutes.login.name),
-      fields: [
-        AppTextField(
-          label: '이메일',
-          hint: '이메일을 입력해 주세요.',
-          prefixIcon: AppIcon.email,
-          controller: _emCtrl,
-          error: _emErr,
-        ),
-        PasswordTextField(
-          label: '비밀번호',
-          hint: '비밀번호를 입력해 주세요.',
-          controller: _pwCtrl,
-          error: _pwErr,
-        ),
-        const PasswordSecurityCard(level: .middle),
-        PasswordTextField(
-          label: '비밀번호 확인',
-          hint: '비밀번호를 다시 입력해 주세요.',
-          controller: _pw2Ctrl,
-          error: _pw2Err,
-        ),
-        _CheckTermTile(
-          check: check,
-          action: (value) => setState(() => check = !check),
-        ),
-      ],
+    final bloc = context.read<SignupBloc>();
+
+    return BlocConsumer<SignupBloc, SignupState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == FormStatus.success) {
+          context.goNamed(AppRoutes.login.name);
+        }
+      },
+      builder: (context, state) => AuthFormLayout(
+        title: '회원가입',
+        subtitle: 'Rentrella 계정으로 우산 대여 서비스를 이용하세요.',
+        bannerError: state.bannerError,
+        submitLabel: '회원가입 하기',
+        onSubmit: state.status.isSubmitting
+            ? null
+            : () => bloc.add(const SignupSubmitted()),
+        footerText: '이미 계정이 있나요?',
+        footerAction: '로그인',
+        onFooterAction: () => context.goNamed(AppRoutes.login.name),
+        fields: [
+          AppTextField(
+            label: '이메일',
+            hint: '이메일을 입력해 주세요.',
+            prefixIcon: AppIcon.email,
+            onChanged: (v) => bloc.add(SignupEmailChanged(v)),
+            error: state.emailError,
+          ),
+          PasswordTextField(
+            label: '비밀번호',
+            hint: '비밀번호를 입력해 주세요.',
+            onChanged: (v) => bloc.add(SignupPasswordChanged(v)),
+            error: state.passwordError,
+          ),
+          const PasswordSecurityCard(level: .middle),
+          PasswordTextField(
+            label: '비밀번호 확인',
+            hint: '비밀번호를 다시 입력해 주세요.',
+            onChanged: (v) => bloc.add(SignupPasswordConfirmChanged(v)),
+            error: state.passwordConfirmError,
+          ),
+          _CheckTermTile(
+            check: state.agreed,
+            action: (_) => bloc.add(const SignupTermsToggled()),
+          ),
+        ],
+      ),
     );
   }
 }

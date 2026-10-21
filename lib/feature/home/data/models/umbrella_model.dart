@@ -1,15 +1,18 @@
+import 'package:equatable/equatable.dart';
 import 'package:rentrella/core/enum/umbrella_status.dart';
 
-class UmbrellaViewModel {
+class UmbrellaModel extends Equatable {
+  const UmbrellaModel({required this.id, required this.status, this.user});
+
   final int id;
-  final String content; //TODO 서버에서 보내주는 지 의문
   final UmbrellaStatus status;
+
+  /// 대여 중인 사용자 이름 (다른 유저가 대여·연체 중일 때)
   final String? user;
 
-  UmbrellaViewModel({
-    required this.id,
-    required this.content,
-    required this.status,
-    this.user,
-  });
+  UmbrellaModel copyWith({UmbrellaStatus? status, String? user}) =>
+      UmbrellaModel(id: id, status: status ?? this.status, user: user);
+
+  @override
+  List<Object?> get props => [id, status, user];
 }

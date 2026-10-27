@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rentrella/core/enum/umbrella_status.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -11,21 +11,36 @@ import 'package:rentrella/core/widgets/app_banner.dart';
 import 'package:rentrella/core/widgets/app_divider.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
 import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
+import 'package:rentrella/feature/home/bloc/home_bloc.dart';
 import 'package:rentrella/feature/home/presentation/widgets/home_icon_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
-import 'package:rentrella/feature/home/presentation/view_models/umbrella_view_model.dart';
 import 'package:rentrella/feature/home/presentation/widgets/umbrella_card.dart';
 import 'package:rentrella/feature/home/presentation/widgets/weather_banner.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        umbrellaRepository: context.read(),
+        weatherRepository: context.read(),
+      )..add(const HomeStarted()),
+      child: const _HomeView(),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeView extends StatefulWidget {
+  const _HomeView();
+
+  @override
+  State<_HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<_HomeView> {
   late final _hdElevation = _ScrollElevationController(
     onUpdate: () => setState(() {}),
   );
@@ -44,6 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<HomeBloc>().state;
+    final weather = state.weather;
+
     return BaseScaffold(
       backgroundColor: AppColors.white,
       appBar: AppBanner(
@@ -58,13 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
           SliverPadding(
             padding: .symmetric(horizontal: AppSpacing.s16),
-            sliver: const SliverToBoxAdapter(
-              child: WeatherBanner(
-                status: .snowy,
-                available: true,
-                temperature: 25,
-                totalPerEnables: (total: 12, enables: 4),
-              ),
+            sliver: SliverToBoxAdapter(
+              child: weather == null
+                  ? SizedBox(height: AppSize.s120)
+                  : WeatherBanner(
+                      status: weather.status,
+                      available: state.availableCount > 0,
+                      temperature: weather.temperature,
+                      totalPerEnables: (
+                        total: state.total,
+                        enables: state.availableCount,
+                      ),
+                    ),
             ),
           ),
 
@@ -115,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Spacer(),
 
                   Text(
-                    '총 ${_MockData.items.length}개 중 ${_MockData.items.where((e) => e.status == .ready).length}개 가능',
+                    '총 ${state.total}개 중 ${state.availableCount}개 가능',
                     style: AppTextStyle.content2.copyWith(
                       color: AppColors.subD_3,
                     ),
@@ -128,9 +151,16 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverPadding(
             padding: .symmetric(horizontal: AppSpacing.s16),
             sliver: SliverGrid.builder(
-              itemBuilder: (context, index) =>
-                  UmbrellaCard.formMode(_MockData.items[index]),
-              itemCount: _MockData.items.length,
+              itemBuilder: (context, index) {
+                final item = state.umbrellas[index];
+                final bloc = context.read<HomeBloc>();
+                return UmbrellaCard.formMode(
+                  item,
+                  onBorrow: () => bloc.add(HomeUmbrellaBorrowed(item.id)),
+                  onReturn: () => bloc.add(HomeUmbrellaReturned(item.id)),
+                );
+              },
+              itemCount: state.umbrellas.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: AppSpacing.s8,
@@ -223,19 +253,4 @@ class _ScrollElevationController {
       _onUpdate();
     }
   }
-}
-
-class _MockData {
-  _MockData._();
-
-  static List<UmbrellaViewModel> get items => UmbrellaStatus.values.indexed
-      .map(
-        (e) => UmbrellaViewModel(
-          id: e.$1 + 1,
-          content: '',
-          status: e.$2,
-          user: '{{user}}',
-        ),
-      )
-      .toList();
 }

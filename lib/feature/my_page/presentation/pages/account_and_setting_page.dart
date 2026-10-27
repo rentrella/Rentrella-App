@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
@@ -12,10 +13,26 @@ import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/base/app_base_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
+import 'package:rentrella/feature/auth/core/data/repositories/auth_repository.dart';
+import 'package:rentrella/feature/my_page/bloc/notification_setting/notification_setting_bloc.dart';
 import 'package:rentrella/feature/my_page/presentation/widgets/my_page_button_tile.dart';
 
 class AccountAndSettingPage extends StatelessWidget {
   const AccountAndSettingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          NotificationSettingBloc(notificationRepository: context.read())
+            ..add(const NotificationSettingStarted()),
+      child: const _AccountAndSettingView(),
+    );
+  }
+}
+
+class _AccountAndSettingView extends StatelessWidget {
+  const _AccountAndSettingView();
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +69,15 @@ class AccountAndSettingPage extends StatelessWidget {
                     MyPageButtonTile(
                       icon: .bell,
                       label: '알림설정',
-                      onPressed: () => NotificationSettingDialog.show(
-                        context,
-                        allowed: true,
-                      ),
+                      onPressed: () {
+                        final bloc = context.read<NotificationSettingBloc>();
+                        NotificationSettingDialog.show(
+                          context,
+                          allowed: bloc.state.allowed,
+                          onChanged: (v) =>
+                              bloc.add(NotificationSettingChanged(v)),
+                        );
+                      },
                     ),
                     MyPageButtonTile(
                       icon: .lock,
@@ -86,7 +108,10 @@ class AccountAndSettingPage extends StatelessWidget {
             child: AppBaseButton(
               onPressed: () => LogoutDialog.show(
                 context,
-                onLogout: () => context.goNamed(AppRoutes.login.name),
+                onLogout: () async {
+                  await context.read<AuthRepository>().logout();
+                  if (context.mounted) context.goNamed(AppRoutes.login.name);
+                },
               ),
               radius: AppRadius.r12,
               child: Padding(

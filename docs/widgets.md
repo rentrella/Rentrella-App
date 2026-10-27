@@ -30,8 +30,8 @@ AppTextField(
   label: '이메일',
   hint: '이메일을 입력해 주세요.',
   prefixIcon: AppIcon.email,
-  controller: _ctrl,
-  error: _errMsg,       // null이면 정상 상태
+  onChanged: (v) => bloc.add(LoginEmailChanged(v)), // BLoC 화면은 onChanged 사용
+  error: state.emailError, // null이면 정상 상태
   suffix: IconButton(...),   // 필드 내부 우측 버튼
   action: _ActionButton(...), // 필드 외부 우측 버튼
   hide: true,           // 비밀번호 숨김
@@ -44,6 +44,7 @@ AppTextField(
 | `action` | Row 외부 배치 (예: "인증코드 발송") |
 | `error` | non-null 시 에러 border + 하단 메시지 표시 |
 | `hide` | `obscureText` 제어 |
+| `onChanged` | 입력값 변경 콜백. BLoC 화면에서는 `controller` 대신 이벤트로 전달 |
 
 ---
 
@@ -151,7 +152,7 @@ AppIconBox(icon: .umbrellaFold, background: AppColors.primary, size: AppSize.s12
 위치: `feature/auth/core/widgets/`
 
 - `AuthFormLayout` — 인증 화면 공통 틀. `title`, `subtitle`, `fields`, `submitLabel`, `onSubmit`, `footerText`·`footerAction`·`onFooterAction`, `bannerError`
-- `PasswordTextField` — 보기/숨기기 토글을 내부 상태로 가진 비밀번호 필드
+- `PasswordTextField` — 보기/숨기기 토글을 내부 상태로 가진 비밀번호 필드 (`onChanged` 지원)
 
 ---
 

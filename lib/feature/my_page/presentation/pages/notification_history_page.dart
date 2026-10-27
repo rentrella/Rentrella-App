@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_radius.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -6,28 +7,33 @@ import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/widgets/base/app_base_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
+import 'package:rentrella/feature/my_page/bloc/notification_history/notification_history_bloc.dart';
 import 'package:rentrella/feature/my_page/presentation/widgets/notification_card.dart';
 
-class NotificationHistoryPage extends StatefulWidget {
+class NotificationHistoryPage extends StatelessWidget {
   const NotificationHistoryPage({super.key});
 
   @override
-  State<NotificationHistoryPage> createState() =>
-      _NotificationHistoryPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          NotificationHistoryBloc(notificationRepository: context.read())
+            ..add(const NotificationHistoryStarted()),
+      child: const _NotificationHistoryView(),
+    );
+  }
 }
 
-class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
+class _NotificationHistoryView extends StatelessWidget {
+  const _NotificationHistoryView();
+
   static const _sectionDecoration = BoxDecoration(color: AppColors.white);
-
-  int total = 12;
-  int unread = 2;
-
-  int page = 1;
-  int lastPage = 3;
 
   @override
   Widget build(BuildContext context) {
-    final items = _MockData.items;
+    final bloc = context.read<NotificationHistoryBloc>();
+    final state = context.watch<NotificationHistoryBloc>().state;
+    final items = state.items;
 
     return Column(
       crossAxisAlignment: .start,
@@ -39,7 +45,7 @@ class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
             borderRadius: .only(topRight: .circular(AppRadius.r8)),
           ),
           padding: .all(AppSpacing.s8),
-          child: Text('전체 알림 $total개', style: AppTextStyle.caption1),
+          child: Text('전체 알림 ${state.total}개', style: AppTextStyle.caption1),
         ),
         Expanded(
           child: Container(
@@ -55,8 +61,17 @@ class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
                   spacing: AppSpacing.s12,
                   crossAxisAlignment: .end,
                   children: [
-                    AppSubButton(label: '알림 전체 읽기', onPressed: () {}),
-                    AppSubButton(label: '읽은 알림 전체 삭제', onPressed: () {}),
+                    AppSubButton(
+                      label: '알림 전체 읽기',
+                      onPressed: () =>
+                          bloc.add(const NotificationHistoryReadAllRequested()),
+                    ),
+                    AppSubButton(
+                      label: '읽은 알림 전체 삭제',
+                      onPressed: () => bloc.add(
+                        const NotificationHistoryDeleteReadRequested(),
+                      ),
+                    ),
 
                     const Spacer(),
 
@@ -66,7 +81,7 @@ class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
                       children: [
                         Text('중', style: AppTextStyle.caption1),
                         Text(
-                          '미확인 $unread개',
+                          '미확인 ${state.unread}개',
                           style: AppTextStyle.content2.copyWith(
                             color: AppColors.pD_2,
                           ),
@@ -82,7 +97,8 @@ class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
                   child: ListView.separated(
                     // 카드 그림자가 잘리지 않도록 여백 확보
                     padding: .only(bottom: AppSpacing.s4),
-                    itemBuilder: (context, index) => items[index],
+                    itemBuilder: (context, index) =>
+                        NotificationCard.fromModel(items[index]),
                     separatorBuilder: (context, index) => AppSpacing.s12.gapH,
                     itemCount: items.length,
                   ),
@@ -93,9 +109,13 @@ class _NotificationHistoryPageState extends State<NotificationHistoryPage> {
         ),
 
         _PageIndex(
-          page: page,
-          onPrev: page > 1 ? () => setState(() => page -= 1) : null,
-          onNext: page < lastPage ? () => setState(() => page += 1) : null,
+          page: state.page,
+          onPrev: state.hasPrev
+              ? () => bloc.add(NotificationHistoryPageChanged(state.page - 1))
+              : null,
+          onNext: state.hasNext
+              ? () => bloc.add(NotificationHistoryPageChanged(state.page + 1))
+              : null,
         ),
       ],
     );
@@ -146,38 +166,4 @@ class _PageIndex extends StatelessWidget {
       ),
     ),
   );
-}
-
-class _MockData {
-  _MockData._();
-
-  static final _start = DateTime(2026, 9, 7, 14, 22);
-
-  static List<Widget> get items => [
-    NotificationCard.returned(
-      title: '우산 #01',
-      message: '우산 #01을 성공적으로 반납했어요!',
-      startDate: _start,
-      endDate: _start.add(const Duration(days: 1, hours: 2, minutes: 30)),
-    ),
-    NotificationCard.overdue(
-      title: '우산 #01',
-      message: '우산 #01의 반납을 3시간 동안 지체했어요.\n패널티 ... 를 받을 예정이에요.',
-      startDate: _start,
-      endDate: _start.add(const Duration(days: 3, hours: 3)),
-      overdue: const Duration(hours: 3),
-    ),
-    NotificationCard.service(message: '서비스 안내 내용 ...', date: _start),
-    NotificationCard.inquiry(
-      message: '문의 접수가 성공적으로 완료되었어요!\n좀 더 나은 서비스를 제공하기 위해 노력할게요.',
-      date: _start,
-    ),
-    NotificationCard.overdue(
-      title: '우산 #01',
-      message: '우산 #01의 반납을 3시간 동안 지체했어요.\n패널티 ... 를 받을 예정이에요.',
-      startDate: _start,
-      endDate: _start.add(const Duration(days: 3, hours: 3)),
-      overdue: const Duration(hours: 3),
-    ),
-  ];
 }

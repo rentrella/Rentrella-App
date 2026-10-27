@@ -12,6 +12,7 @@ class AppTextField extends StatefulWidget {
     super.key,
     this.label,
     this.controller,
+    this.onChanged,
     this.prefixIcon,
     this.hint,
     this.focusNode,
@@ -27,6 +28,7 @@ class AppTextField extends StatefulWidget {
   final Widget? suffix;
   final String? hint;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
   final FocusNode? focusNode;
   final String? error;
   final bool? hide;
@@ -115,6 +117,7 @@ class _AppTextFieldState extends State<AppTextField> {
                               obscuringCharacter: widget.hideChar ?? '•',
                               style: AppTextStyle.content2,
                               controller: widget.controller,
+                              onChanged: widget.onChanged,
                               decoration: InputDecoration(
                                 isDense: true,
                                 contentPadding: .zero,

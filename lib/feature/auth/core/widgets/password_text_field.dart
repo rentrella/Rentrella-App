@@ -10,12 +10,14 @@ class PasswordTextField extends StatefulWidget {
     required this.label,
     required this.hint,
     this.controller,
+    this.onChanged,
     this.error,
   });
 
   final String label;
   final String hint;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
   final String? error;
 
   @override
@@ -32,6 +34,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       hint: widget.hint,
       prefixIcon: AppIcon.lock,
       controller: widget.controller,
+      onChanged: widget.onChanged,
       error: widget.error,
       hide: _hide,
       suffix: IconButton(

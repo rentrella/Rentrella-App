@@ -37,8 +37,8 @@ void main() {
     act: (bloc) => bloc
       ..add(const PasswordChangeEmailChanged('s12345@gsm.hs.kr'))
       ..add(const PasswordChangeCodeChanged(MockAuthRepository.mockCode))
-      ..add(const PasswordChangePasswordChanged('abc123'))
-      ..add(const PasswordChangePasswordConfirmChanged('abc123'))
+      ..add(const PasswordChangePasswordChanged('abc12345'))
+      ..add(const PasswordChangePasswordConfirmChanged('abc12345'))
       ..add(const PasswordChangeSubmitted()),
     verify: (bloc) => expect(bloc.state.status, FormStatus.success),
   );

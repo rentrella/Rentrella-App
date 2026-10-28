@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:rentrella/core/enum/umbrella_status.dart';
 import 'package:rentrella/core/routes/app_route.dart';
 import 'package:rentrella/core/theme/color/app_colors.dart';
 import 'package:rentrella/core/theme/constants/app_size.dart';
@@ -12,6 +14,7 @@ import 'package:rentrella/core/widgets/app_divider.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
 import 'package:rentrella/core/widgets/dialog/inquiry_dialog.dart';
 import 'package:rentrella/feature/home/bloc/home_bloc.dart';
+import 'package:rentrella/feature/home/data/models/my_rental_model.dart';
 import 'package:rentrella/feature/home/presentation/widgets/home_icon_button.dart';
 import 'package:rentrella/core/widgets/buttons/app_sub_button.dart';
 import 'package:rentrella/core/widgets/umbrella/umbrella_state_card.dart';
@@ -28,7 +31,14 @@ class HomeScreen extends StatelessWidget {
         umbrellaRepository: context.read(),
         weatherRepository: context.read(),
       )..add(const HomeStarted()),
-      child: const _HomeView(),
+      child: BlocListener<HomeBloc, HomeState>(
+        listenWhen: (prev, curr) =>
+            curr.errorMessage != null && prev.errorMessage != curr.errorMessage,
+        listener: (context, state) => ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.errorMessage!))),
+        child: const _HomeView(),
+      ),
     );
   }
 }
@@ -103,7 +113,10 @@ class _HomeViewState extends State<_HomeView> {
                 spacing: AppSpacing.s8,
                 children: [
                   AppDivider(pad: .all(AppSpacing.s8)),
-                  const UmbrellaStateCard.ready(),
+                  _MyStateCard(
+                    myRental: state.myRental,
+                    available: state.availableCount > 0,
+                  ),
                   AppDivider(pad: .all(AppSpacing.s8)),
                 ],
               ),
@@ -173,6 +186,29 @@ class _HomeViewState extends State<_HomeView> {
         ],
       ),
     );
+  }
+}
+
+/// 현재 상태 카드 — 서버 `GET /umbrella/me`, `GET /umbrella` 기준
+class _MyStateCard extends StatelessWidget {
+  const _MyStateCard({required this.myRental, required this.available});
+
+  final MyRentalModel myRental;
+  final bool available;
+
+  @override
+  Widget build(BuildContext context) {
+    if (myRental.hasRental) {
+      // TODO 서버가 대여 기간을 내려주면 UmbrellaStateCard.renting(duration)으로 교체
+      return UmbrellaStateCard(
+        status: UmbrellaStatus.rentingByMe,
+        title: '우산 #${NumberFormat('00').format(myRental.deviceId ?? 0)}',
+        content: '현재 우산을 대여하고 있어요.\n제시간에 반납해 주세요.',
+      );
+    }
+    return available
+        ? const UmbrellaStateCard.ready()
+        : const UmbrellaStateCard.unavailable(reason: '대여 가능한 우산이 없어요.');
   }
 }
 

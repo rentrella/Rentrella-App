@@ -8,7 +8,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const App());
+    await tester.pumpWidget(const App(useMock: true));
     await tester.pump(const Duration(seconds: 3));
     await tester.pumpAndSettle();
 
@@ -21,7 +21,7 @@ void main() {
 
     final fields = find.byType(TextField);
     await tester.enterText(fields.at(0), 's12345@gsm.hs.kr');
-    await tester.enterText(fields.at(1), 'abc123');
+    await tester.enterText(fields.at(1), 'abc12345');
     await tester.tap(find.text('로그인 하기'));
     // 홈 날씨 배너는 반복 애니메이션이라 settle 대신 고정 시간만큼 진행
     await tester.pump();

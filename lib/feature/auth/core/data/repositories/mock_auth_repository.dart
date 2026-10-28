@@ -1,9 +1,12 @@
 import 'package:rentrella/feature/auth/core/data/repositories/auth_repository.dart';
 
-/// 서버 연동 전 사용하는 목 구현체
+/// 서버 없이 사용하는 목 구현체 (`--dart-define=USE_MOCK=true`, 테스트)
 class MockAuthRepository implements AuthRepository {
   /// 목 인증코드
   static const mockCode = '123456';
+
+  @override
+  Future<bool> hasSession() async => false;
 
   @override
   Future<void> login({
@@ -13,10 +16,17 @@ class MockAuthRepository implements AuthRepository {
   }) async {}
 
   @override
+  Future<void> sendSignupCode({required String email}) async {}
+
+  @override
   Future<void> signup({
     required String email,
     required String password,
-  }) async {}
+    required String name,
+    required String verificationCode,
+  }) async {
+    if (verificationCode != mockCode) throw const AuthException('인증코드 불일치');
+  }
 
   @override
   Future<void> sendVerificationCode({required String email}) async {}

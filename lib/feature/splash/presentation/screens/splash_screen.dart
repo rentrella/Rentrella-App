@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/routes/app_route.dart';
@@ -8,6 +9,7 @@ import 'package:rentrella/core/theme/constants/app_spacing.dart';
 import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/widgets/base/base_scaffold.dart';
+import 'package:rentrella/feature/auth/core/data/repositories/auth_repository.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,10 +25,18 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // TODO 자동 로그인 도입 시 토큰 확인 후 분기
-    Future.delayed(_duration, () {
-      if (mounted) context.goNamed(AppRoutes.login.name);
-    });
+    _route();
+  }
+
+  /// 로그인 유지 토큰이 있으면 홈, 없으면 로그인으로 이동
+  Future<void> _route() async {
+    final authRepository = context.read<AuthRepository>();
+    final (hasSession, _) = await (
+      authRepository.hasSession(),
+      Future<void>.delayed(_duration),
+    ).wait;
+    if (!mounted) return;
+    context.goNamed(hasSession ? AppRoutes.home.name : AppRoutes.login.name);
   }
 
   @override

@@ -30,7 +30,7 @@ void main() {
     build: build,
     act: (bloc) => bloc
       ..add(const LoginEmailChanged('s12345@gsm.hs.kr'))
-      ..add(const LoginPasswordChanged('abc123'))
+      ..add(const LoginPasswordChanged('abc12345'))
       ..add(const LoginSubmitted()),
     verify: (bloc) {
       expect(bloc.state.status, FormStatus.success);

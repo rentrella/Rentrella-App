@@ -10,6 +10,7 @@ import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
 import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
+import 'package:rentrella/feature/auth/core/widgets/auth_action_button.dart';
 import 'package:rentrella/feature/auth/core/widgets/auth_form_layout.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_text_field.dart';
 import 'package:rentrella/feature/auth/core/widgets/custom_check_box_tile.dart';
@@ -55,11 +56,29 @@ class _SignupView extends StatelessWidget {
         onFooterAction: () => context.goNamed(AppRoutes.login.name),
         fields: [
           AppTextField(
+            label: '이름',
+            hint: '이름을 입력해 주세요.',
+            prefixIcon: AppIcon.personOutline,
+            onChanged: (v) => bloc.add(SignupNameChanged(v)),
+            error: state.nameError,
+          ),
+          AppTextField(
+            action: AuthActionButton(
+              title: state.codeSent ? '재발송' : '인증코드 발송',
+              onPressed: () => bloc.add(const SignupCodeRequested()),
+            ),
             label: '이메일',
             hint: '이메일을 입력해 주세요.',
             prefixIcon: AppIcon.email,
             onChanged: (v) => bloc.add(SignupEmailChanged(v)),
             error: state.emailError,
+          ),
+          AppTextField(
+            label: '인증코드',
+            hint: '이메일로 받은 인증번호를 입력해주세요.',
+            prefixIcon: AppIcon.key,
+            onChanged: (v) => bloc.add(SignupCodeChanged(v)),
+            error: state.codeError,
           ),
           PasswordTextField(
             label: '비밀번호',

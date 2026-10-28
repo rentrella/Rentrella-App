@@ -6,6 +6,7 @@
 lib/
 ├── core/
 │   ├── enum/            # 공통 enum (FormStatus, LoadStatus 등)
+│   ├── network/         # Dio 클라이언트, 토큰 저장소, 인증 인터셉터, ApiException
 │   ├── routes/          # GoRouter 라우팅
 │   ├── theme/           # 디자인 시스템 상수
 │   └── widgets/         # 전역 공통 위젯
@@ -48,7 +49,7 @@ enum AppRoutes {
 feature/<도메인>/
 ├── data/
 │   ├── models/          # 서버 응답 모델 (Equatable)
-│   └── repositories/    # <이름>_repository.dart (interface) + mock_<이름>_repository.dart
+│   └── repositories/    # <이름>_repository.dart (interface) + api_<이름>_repository.dart + mock_<이름>_repository.dart
 ├── bloc/                # <이름>_bloc.dart + part '<이름>_event.dart' / '<이름>_state.dart'
 └── presentation/
 ```
@@ -57,14 +58,38 @@ auth는 기능별로 `feature/auth/<기능>/bloc/`, 리포지토리는 `feature/
 
 ### 리포지토리
 
-- 인터페이스(`abstract interface class`)와 `Mock` 구현체를 분리한다. 목 데이터는 Mock 구현체 안에만 둔다.
-- `main.dart`의 `MultiRepositoryProvider`에서 주입한다. 서버 연동 시 이 곳의 Mock 구현체만 실제 구현체로 교체한다.
+- 인터페이스(`abstract interface class`)와 `Api`·`Mock` 구현체를 분리한다. 목 데이터는 Mock 구현체 안에만 둔다.
+- `main.dart`의 `MultiRepositoryProvider`에서 주입한다. 기본은 Api 구현체, `--dart-define=USE_MOCK=true`(또는 `App(useMock: true)`, 테스트)면 Mock 구현체를 쓴다.
+- 실패는 `ApiException`(`core/network/api_exception.dart`)으로 던진다. Api 구현체는 요청을 `guardApi()`로 감싸 `DioException` → 서버 에러 바디의 `message`로 바꾸고, BLoC은 `on ApiException catch (e)`로 받아 `e.message`를 에러 상태(배너·스낵바)에 넣는다. (`AuthException`은 `ApiException`의 하위 타입)
 
 | 리포지토리 | 위치 | 사용 BLoC |
 |-----------|------|-----------|
 | `AuthRepository` | `auth/core/data/repositories/` | `LoginBloc`, `SignupBloc`, `PasswordChangeBloc` (+ 로그아웃) |
 | `UmbrellaRepository`, `WeatherRepository` | `home/data/repositories/` | `HomeBloc` |
 | `NotificationRepository` | `my_page/data/repositories/` | `NotificationHistoryBloc`, `NotificationSettingBloc` |
+
+| 리포지토리 | Api 구현체 | 비고 |
+|-----------|-----------|------|
+| `AuthRepository` | `ApiAuthRepository` | `/auth/*`. 인증코드 확인 API가 없어 `verifyCode`는 형식만 확인, 실제 검증은 재설정 요청 시 서버가 한다 |
+| `UmbrellaRepository` | `ApiUmbrellaRepository` | `GET /umbrella`(개수), `GET /umbrella/me`, `POST /umbrella/Rental`·`/return`. 칸 목록 API가 없어 목록은 Mock 칸 + 내 대여만 반영 (TODO) |
+| `WeatherRepository`, `NotificationRepository` | — | 서버 미구현 → Mock 유지 |
+
+## 서버 연동 (`core/network/`)
+
+| 파일 | 역할 |
+|------|------|
+| `api_config.dart` | `API_BASE_URL`(기본 `http://10.0.2.2:8888`, 안드로이드 에뮬레이터), `USE_MOCK` — `--dart-define`으로 주입 |
+| `api_client.dart` | `createApiClient()` — Dio 생성 + `AuthInterceptor` 장착 |
+| `auth_interceptor.dart` | `/auth/*` 외 요청에 `Authorization: Bearer` 부착. 401이면 `/auth/reissue`로 한 번 재발급 후 재시도, 실패하면 토큰 삭제 + 로그인 화면 이동 |
+| `token_storage.dart` | `SecureTokenStorage`(flutter_secure_storage). 로그인 유지 체크 시에만 기기에 저장, 아니면 메모리. 스플래시는 저장된 토큰이 있으면 홈으로 이동 |
+| `api_exception.dart` | `ApiException`, `guardApi()` |
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://192.168.0.10:8888   # 실기기
+flutter run --dart-define=USE_MOCK=true                            # 서버 없이
+```
+
+Api 구현체 테스트는 `test/helpers/fake_http_adapter.dart`(요청 기록 + 응답 등록)로 경로·바디·응답 파싱을 검증한다.
 
 ### 화면과 BLoC
 
@@ -74,6 +99,7 @@ auth는 기능별로 `feature/auth/<기능>/bloc/`, 리포지토리는 `feature/
 - 다이얼로그는 별도 route라 BLoC을 직접 찾지 못하므로 값과 콜백(`onChanged` 등)으로 전달한다.
 
 auth 내부 공통은 `feature/auth/core/` 에 위치.
+필드 우측 버튼(인증코드 발송·확인)은 `AuthActionButton`을 쓴다.
 인증 화면(로그인·회원가입·비밀번호 변경)은 `AuthFormLayout`으로 공통 레이아웃(제목·폼·에러 배너·제출 버튼·하단 링크)을 구성하고, 화면은 필드와 검증만 가진다.
 
 탭 페이지처럼 화면 일부를 채우는 페이지는 `presentation/pages/`, 화면 전용 위젯은 `presentation/widgets/`에 둔다.

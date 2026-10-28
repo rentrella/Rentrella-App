@@ -1,17 +1,29 @@
+import 'package:rentrella/core/network/api_exception.dart';
+
 /// 인증 관련 서버 통신 인터페이스
 ///
-/// 현재는 [MockAuthRepository]를 사용하며, 서버 연동 시 구현체만 교체한다.
+/// 실패 시 [ApiException]을 던진다. 구현체: [ApiAuthRepository], [MockAuthRepository]
 abstract interface class AuthRepository {
-  /// 로그인. 실패 시 [AuthException]을 던진다.
+  /// 저장된 로그인(로그인 유지) 토큰이 있는지
+  Future<bool> hasSession();
+
   Future<void> login({
     required String email,
     required String password,
     required bool keepLoggedIn,
   });
 
-  Future<void> signup({required String email, required String password});
+  /// 회원가입용 이메일 인증코드 발송
+  Future<void> sendSignupCode({required String email});
 
-  /// 비밀번호 변경용 인증코드 발송
+  Future<void> signup({
+    required String email,
+    required String password,
+    required String name,
+    required String verificationCode,
+  });
+
+  /// 비밀번호 재설정용 인증코드 발송
   Future<void> sendVerificationCode({required String email});
 
   /// 인증코드 일치 여부
@@ -26,10 +38,8 @@ abstract interface class AuthRepository {
   Future<void> logout();
 }
 
-class AuthException implements Exception {
-  const AuthException(this.message);
-
-  final String message;
+class AuthException extends ApiException {
+  const AuthException(super.message);
 
   @override
   String toString() => 'AuthException: $message';

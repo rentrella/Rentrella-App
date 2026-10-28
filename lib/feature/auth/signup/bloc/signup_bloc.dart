@@ -70,11 +70,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         codeError: () => codeV ? null : AuthErrors.codeRequired,
         passwordError: () => pwV ? null : AuthErrors.password,
         passwordConfirmError: () => pw2V ? null : AuthErrors.passwordConfirm,
-        bannerError: () => null,
+        bannerError: () => state.agreed ? null : AuthErrors.terms,
         status: FormStatus.initial,
       ),
     );
-    if (!nameV || !emV || !codeV || !pwV || !pw2V) return;
+    if (!nameV || !emV || !codeV || !pwV || !pw2V || !state.agreed) return;
 
     emit(state.copyWith(status: FormStatus.submitting));
     try {

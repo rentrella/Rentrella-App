@@ -18,6 +18,7 @@ class AuthErrors {
   static const code = '인증 번호가 일치하지 않습니다.';
   static const codeRequired = '인증코드를 입력해 주세요.';
   static const name = '이름을 입력해 주세요. (50자 이하)';
+  static const terms = '개인정보 수집 및 이용에 동의해 주세요.';
 
   /// 하단 에러 배너 메시지
   static const emailBanner = '이메일이 올바르지 않습니다.';

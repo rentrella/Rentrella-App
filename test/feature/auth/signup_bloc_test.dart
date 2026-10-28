@@ -13,7 +13,8 @@ void main() {
     ..add(const SignupEmailChanged('s12345@gsm.hs.kr'))
     ..add(SignupCodeChanged(code))
     ..add(const SignupPasswordChanged('abc12345'))
-    ..add(const SignupPasswordConfirmChanged('abc12345'));
+    ..add(const SignupPasswordConfirmChanged('abc12345'))
+    ..add(const SignupTermsToggled());
 
   blocTest<SignupBloc, SignupState>(
     '이름·인증코드가 비어 있으면 필드 에러를 표시하고 제출하지 않는다',
@@ -26,6 +27,19 @@ void main() {
     verify: (bloc) {
       expect(bloc.state.nameError, AuthErrors.name);
       expect(bloc.state.codeError, AuthErrors.codeRequired);
+      expect(bloc.state.status, FormStatus.initial);
+    },
+  );
+
+  blocTest<SignupBloc, SignupState>(
+    '약관에 동의하지 않으면 배너를 표시하고 제출하지 않는다',
+    build: build,
+    act: (bloc) => fill(bloc, code: MockAuthRepository.mockCode)
+      ..add(const SignupTermsToggled())
+      ..add(const SignupSubmitted()),
+    verify: (bloc) {
+      expect(bloc.state.agreed, isFalse);
+      expect(bloc.state.bannerError, AuthErrors.terms);
       expect(bloc.state.status, FormStatus.initial);
     },
   );

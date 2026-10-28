@@ -35,6 +35,8 @@ AppTextField(
   suffix: IconButton(...),   // 필드 내부 우측 버튼
   action: _ActionButton(...), // 필드 외부 우측 버튼
   hide: true,           // 비밀번호 숨김
+  textInputAction: TextInputAction.next, // 엔터 시 다음 입력칸으로
+  onSubmitted: (_) => bloc.add(const LoginSubmitted()), // 마지막 칸은 done + 제출
 )
 ```
 
@@ -45,6 +47,10 @@ AppTextField(
 | `error` | non-null 시 에러 border + 하단 메시지 표시 |
 | `hide` | `obscureText` 제어 |
 | `onChanged` | 입력값 변경 콜백. BLoC 화면에서는 `controller` 대신 이벤트로 전달 |
+| `textInputAction` | 키보드 엔터 동작. 폼 중간 칸은 `next`, 마지막 칸은 `done` |
+| `onSubmitted` | 엔터 입력 콜백. 마지막 칸에서 폼 제출에 사용 |
+
+`suffix`·`action` 버튼은 `ExcludeFocusTraversal`로 감싸져 있어 `next` 이동 시 건너뛰고 다음 입력칸으로 간다. `PasswordTextField`도 같은 두 prop을 전달한다.
 
 ---
 

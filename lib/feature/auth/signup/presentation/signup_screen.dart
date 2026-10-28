@@ -60,6 +60,7 @@ class _SignupView extends StatelessWidget {
             hint: '이름을 입력해 주세요.',
             prefixIcon: AppIcon.personOutline,
             onChanged: (v) => bloc.add(SignupNameChanged(v)),
+            textInputAction: TextInputAction.next,
             error: state.nameError,
           ),
           AppTextField(
@@ -71,6 +72,7 @@ class _SignupView extends StatelessWidget {
             hint: '이메일을 입력해 주세요.',
             prefixIcon: AppIcon.email,
             onChanged: (v) => bloc.add(SignupEmailChanged(v)),
+            textInputAction: TextInputAction.next,
             error: state.emailError,
           ),
           AppTextField(
@@ -78,12 +80,14 @@ class _SignupView extends StatelessWidget {
             hint: '이메일로 받은 인증번호를 입력해주세요.',
             prefixIcon: AppIcon.key,
             onChanged: (v) => bloc.add(SignupCodeChanged(v)),
+            textInputAction: TextInputAction.next,
             error: state.codeError,
           ),
           PasswordTextField(
             label: '비밀번호',
             hint: '비밀번호를 입력해 주세요.',
             onChanged: (v) => bloc.add(SignupPasswordChanged(v)),
+            textInputAction: TextInputAction.next,
             error: state.passwordError,
           ),
           const PasswordSecurityCard(level: .middle),
@@ -91,6 +95,8 @@ class _SignupView extends StatelessWidget {
             label: '비밀번호 확인',
             hint: '비밀번호를 다시 입력해 주세요.',
             onChanged: (v) => bloc.add(SignupPasswordConfirmChanged(v)),
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => bloc.add(const SignupSubmitted()),
             error: state.passwordConfirmError,
           ),
           _CheckTermTile(

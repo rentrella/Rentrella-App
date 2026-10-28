@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentrella/core/enum/load_status.dart';
-import 'package:rentrella/core/enum/umbrella_status.dart';
+import 'package:rentrella/core/network/api_exception.dart';
+import 'package:rentrella/feature/home/data/models/my_rental_model.dart';
 import 'package:rentrella/feature/home/data/models/umbrella_model.dart';
 import 'package:rentrella/feature/home/data/models/weather_model.dart';
 import 'package:rentrella/feature/home/data/repositories/umbrella_repository.dart';
@@ -17,10 +19,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }) : super(const HomeState()) {
     on<HomeStarted>(_onStarted);
     on<HomeUmbrellaBorrowed>(
-      (e, emit) => _replace(emit, _umbrellaRepository.borrow(e.id)),
+      (e, emit) => _replace(emit, () => _umbrellaRepository.borrow(e.id)),
     );
     on<HomeUmbrellaReturned>(
-      (e, emit) => _replace(emit, _umbrellaRepository.returnUmbrella(e.id)),
+      (e, emit) =>
+          _replace(emit, () => _umbrellaRepository.returnUmbrella(e.id)),
     );
   }
 
@@ -28,36 +31,52 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final WeatherRepository _weatherRepository;
 
   Future<void> _onStarted(HomeStarted event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(status: LoadStatus.loading));
+    emit(state.copyWith(status: LoadStatus.loading, errorMessage: () => null));
     try {
-      final (weather, umbrellas) = await (
-        _weatherRepository.fetchWeather(),
-        _umbrellaRepository.fetchUmbrellas(),
-      ).wait;
+      final weather = await _weatherRepository.fetchWeather();
+      final umbrellas = await _umbrellaRepository.fetchUmbrellas();
+      final availableCount = await _umbrellaRepository.fetchAvailableCount();
+      final myRental = await _umbrellaRepository.fetchMyRental();
       emit(
         state.copyWith(
           status: LoadStatus.success,
           weather: weather,
           umbrellas: umbrellas,
+          availableCount: availableCount,
+          myRental: myRental,
         ),
       );
-    } catch (_) {
-      emit(state.copyWith(status: LoadStatus.failure));
+    } on ApiException catch (e) {
+      emit(
+        state.copyWith(
+          status: LoadStatus.failure,
+          errorMessage: () => e.message,
+        ),
+      );
     }
   }
 
-  /// 대여/반납 결과로 받은 우산을 목록에서 교체
+  /// 대여/반납 결과로 받은 우산을 목록에서 교체하고 개수·내 대여를 다시 조회
   Future<void> _replace(
     Emitter<HomeState> emit,
-    Future<UmbrellaModel> request,
+    Future<UmbrellaModel> Function() request,
   ) async {
-    final updated = await request;
-    emit(
-      state.copyWith(
-        umbrellas: [
-          for (final e in state.umbrellas) e.id == updated.id ? updated : e,
-        ],
-      ),
-    );
+    emit(state.copyWith(errorMessage: () => null));
+    try {
+      final updated = await request();
+      final availableCount = await _umbrellaRepository.fetchAvailableCount();
+      final myRental = await _umbrellaRepository.fetchMyRental();
+      emit(
+        state.copyWith(
+          umbrellas: [
+            for (final e in state.umbrellas) e.id == updated.id ? updated : e,
+          ],
+          availableCount: availableCount,
+          myRental: myRental,
+        ),
+      );
+    } on ApiException catch (e) {
+      emit(state.copyWith(errorMessage: () => e.message));
+    }
   }
 }

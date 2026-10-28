@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rentrella/core/enum/form_status.dart';
+import 'package:rentrella/core/network/api_exception.dart';
 import 'package:rentrella/feature/auth/core/auth_validators.dart';
 import 'package:rentrella/feature/auth/core/data/repositories/auth_repository.dart';
 
@@ -41,9 +42,13 @@ class PasswordChangeBloc
       return;
     }
 
-    emit(state.copyWith(emailError: () => null));
-    await _authRepository.sendVerificationCode(email: email);
-    emit(state.copyWith(codeSent: true));
+    emit(state.copyWith(emailError: () => null, bannerError: () => null));
+    try {
+      await _authRepository.sendVerificationCode(email: email);
+      emit(state.copyWith(codeSent: true));
+    } on ApiException catch (e) {
+      emit(state.copyWith(bannerError: () => e.message));
+    }
   }
 
   Future<void> _onCodeVerified(
@@ -92,7 +97,7 @@ class PasswordChangeBloc
         password: state.password,
       );
       emit(state.copyWith(status: FormStatus.success));
-    } on AuthException catch (e) {
+    } on ApiException catch (e) {
       emit(
         state.copyWith(
           status: FormStatus.failure,

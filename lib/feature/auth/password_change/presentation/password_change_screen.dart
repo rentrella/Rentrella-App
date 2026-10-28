@@ -3,15 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rentrella/core/enum/form_status.dart';
 import 'package:rentrella/core/routes/app_route.dart';
-import 'package:rentrella/core/theme/color/app_colors.dart';
-import 'package:rentrella/core/theme/constants/app_radius.dart';
-import 'package:rentrella/core/theme/constants/app_size.dart';
-import 'package:rentrella/core/theme/constants/app_spacing.dart';
-import 'package:rentrella/core/theme/font/app_text_style.dart';
 import 'package:rentrella/core/theme/icon/app_icon.dart';
-import 'package:rentrella/core/theme/shadow/app_shadow.dart';
 import 'package:rentrella/core/widgets/app_text_field.dart';
-import 'package:rentrella/core/widgets/base/app_base_button.dart';
+import 'package:rentrella/feature/auth/core/widgets/auth_action_button.dart';
 import 'package:rentrella/feature/auth/core/widgets/auth_form_layout.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_text_field.dart';
 import 'package:rentrella/feature/auth/core/widgets/password_security_card.dart';
@@ -60,7 +54,7 @@ class _PasswordChangeView extends StatelessWidget {
         onFooterAction: () => context.goNamed(AppRoutes.login.name),
         fields: [
           AppTextField(
-            action: _ActionButton(
+            action: AuthActionButton(
               title: state.codeSent ? '재발송' : '인증코드 발송',
               onPressed: () => bloc.add(const PasswordChangeCodeRequested()),
             ),
@@ -71,7 +65,7 @@ class _PasswordChangeView extends StatelessWidget {
             error: state.emailError,
           ),
           AppTextField(
-            action: _ActionButton(
+            action: AuthActionButton(
               title: '확인',
               onPressed: state.codeVerified
                   ? null
@@ -97,47 +91,6 @@ class _PasswordChangeView extends StatelessWidget {
             error: state.passwordConfirmError,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({required this.title, required this.onPressed});
-
-  final String title;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final enable = onPressed != null;
-
-    final decoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(AppRadius.r8),
-      color: enable ? AppColors.primary : AppColors.subL_3,
-      boxShadow: enable ? const [AppShadow.button] : null,
-    );
-
-    return Container(
-      width: AppSize.s88,
-      decoration: decoration,
-      child: AppBaseButton(
-        radius: AppRadius.r8,
-        onPressed: onPressed,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSpacing.s8,
-            vertical: AppSpacing.s12,
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: AppTextStyle.button2.copyWith(
-                color: enable ? AppColors.white : AppColors.subL_2,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

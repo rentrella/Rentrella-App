@@ -54,12 +54,15 @@ class _LoginView extends StatelessWidget {
             hint: '이메일을 입력해 주세요.',
             prefixIcon: AppIcon.email,
             onChanged: (v) => bloc.add(LoginEmailChanged(v)),
+            textInputAction: TextInputAction.next,
             error: state.emailError,
           ),
           PasswordTextField(
             label: '비밀번호',
             hint: '비밀번호를 입력해 주세요.',
             onChanged: (v) => bloc.add(LoginPasswordChanged(v)),
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => bloc.add(const LoginSubmitted()),
             error: state.passwordError,
           ),
           CustomCheckBoxTile(

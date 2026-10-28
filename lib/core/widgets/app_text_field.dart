@@ -21,6 +21,8 @@ class AppTextField extends StatefulWidget {
     this.hide,
     this.hideChar,
     this.action,
+    this.textInputAction,
+    this.onSubmitted,
   });
 
   final String? label;
@@ -34,6 +36,12 @@ class AppTextField extends StatefulWidget {
   final bool? hide;
   final String? hideChar;
   final Widget? action;
+
+  /// 키보드 엔터 동작. `next`면 다음 입력칸으로 이동한다.
+  final TextInputAction? textInputAction;
+
+  /// 엔터(`done` 등) 입력 시 콜백 (예: 폼 제출)
+  final ValueChanged<String>? onSubmitted;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -118,6 +126,8 @@ class _AppTextFieldState extends State<AppTextField> {
                               style: AppTextStyle.content2,
                               controller: widget.controller,
                               onChanged: widget.onChanged,
+                              textInputAction: widget.textInputAction,
+                              onSubmitted: widget.onSubmitted,
                               decoration: InputDecoration(
                                 isDense: true,
                                 contentPadding: .zero,
@@ -137,14 +147,18 @@ class _AppTextFieldState extends State<AppTextField> {
                         right: 0,
                         top: 0,
                         bottom: 0,
-                        child: Center(child: widget.suffix!),
+                        // 엔터(next) 이동 시 버튼을 건너뛰고 다음 입력칸으로 간다.
+                        child: ExcludeFocusTraversal(
+                          child: Center(child: widget.suffix!),
+                        ),
                       ),
                   ],
                 ),
               ),
             ),
 
-            if (widget.action != null) widget.action!,
+            if (widget.action != null)
+              ExcludeFocusTraversal(child: widget.action!),
           ],
         ),
         if (widget.error != null)

@@ -12,6 +12,8 @@ class PasswordTextField extends StatefulWidget {
     this.controller,
     this.onChanged,
     this.error,
+    this.textInputAction,
+    this.onSubmitted,
   });
 
   final String label;
@@ -19,6 +21,8 @@ class PasswordTextField extends StatefulWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final String? error;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onSubmitted;
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -36,6 +40,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       onChanged: widget.onChanged,
       error: widget.error,
+      textInputAction: widget.textInputAction,
+      onSubmitted: widget.onSubmitted,
       hide: _hide,
       suffix: IconButton(
         onPressed: () => setState(() => _hide = !_hide),
